@@ -1,0 +1,69 @@
+---
+title: "Final Project"
+author: "Elisa Colson & Adriel Mazère"
+format: 
+  html: default
+  pdf: default
+---
+
+```{r database}
+#| message: false
+here::i_am("project_sandp_tweets.Rproj")
+library(here)
+library(quantmod)
+library(vroom)
+library(dplyr)
+library(ggplot2)
+library(gt)
+library(tidyr)
+library(stringr)
+```
+
+## Introduction
+
+We are interested in the relationship between Donald J. Trump's daily media rampages and how it affects the most famous international stock index, the S&P500. Before delving into analysis, we however need to analyse precisely and separately, then jointly, multiple datasets.
+
+## Loading the data for the tweets ...
+
+### ... from Twitter (now X) ...
+
+We obtain this data from Kaggle.
+
+```{r}
+tweets <- vroom(here("data","tweets.csv")) |>
+  mutate(date=as.Date(date))
+```
+
+This set contains information on the date of the tweets, if they're retweets, from which device they were sent, but more importantly the text they contain, which will allow us to go deep into the wording. The tweet density can help us visualize the frenzy:
+
+```{r}
+ggplot(tweets,aes(x=as.Date(date)))+
+  geom_density(bw="sj")
+```
+
+### ... and from Truth Social
+
+**A faire:**
+- 
+
+### Combining the media data
+
+For a smoother comparison, we merge the datasets from Twitter and Truth Social.
+
+## Loading the data from the S&P500
+
+We get this data from Yahoo! Finance. We take daily data from 1970, the year during which DJT first twitted, up until today.
+
+```{r}
+getSymbols("^GSPC", src = "yahoo", 
+           from = "2009-01-01",
+           to   = Sys.Date())
+sp500 <- data.frame(date=index(GSPC),coredata(GSPC))
+```
+
+We can plot the closing prices to observe general events:
+
+```{r}
+ggplot(sp500, aes(x=date, y=GSPC.Close)) +
+  geom_line()
+```
