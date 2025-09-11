@@ -74,7 +74,7 @@ statistics_tweets <- tweets |>
 stargazer(as.data.frame(statistics_tweets), type="text")
 ```
 
-On 3500 days of data, POTUS wrote, between 2009 and 2021 before his account was banned, 16 tweets on average per day, with the quietest day at 1 tweet per day and the busiest at 160 tweets per day. On average, the DJT twitted everyday every hour and a half, and on its busiest day, every 9 minutes.
+On 3495 days of data, POTUS wrote, between 2009 and 2021 before his account was banned, 16 tweets on average per day, with the quietest day at 1 tweet per day and the busiest at 160 tweets per day. On average, the DJT twitted everyday every hour and a half, and on its busiest day, every 9 minutes.
 
 ```{r}
 # Setting up a count for all tweets, that separates the number of 
@@ -84,7 +84,7 @@ daily_counts <- total_tweets |>
   mutate(type = if_else(isRetweet, "Retweet", "Original")) |>
   count(date, type, name = "n")
 
-# Plotting additivelt tweets and retweets
+# Plotting additively tweets and retweets
 ggplot(daily_counts, aes(x = as.Date(date), y = n, colour = type)) +
   geom_col() +
   scale_colour_manual(values = c(Original = "black", Retweet = "skyblue")) +
@@ -355,10 +355,44 @@ Notably, two spikes appear: the upward spike right after DJT's presidency, proba
 
 ## Analyzing relationships between the markets and the orange man's bamboozles
 
+We want to use two models: a simple regression model and a GARCH-volatility model. First, however, we can scatter plot both IV and RV in the number of tweets to have an idea of a relationship. We first need to merge the datasets:
+
+```{r}
+
+```
+
+
+Beginning with RV:
+
+```{r}
+
+```
+
+And now IV:
+
+```{r}
+
+```
+
+
 ### Using a simple regression of IV and RV on the Tweets and Truths
 
+The simple regression model takes the form of:
 
+$$
+\sigma_{i,t}=\alpha+\beta\cdot \text{Tweets}_t+\boldsymbol{\delta'} \cdot \mathbf{ X_t}+\varepsilon_t
+$$
+Where $i=\{\text{RV},\text{IV}\}$ and $\mathbf{X_t}$ is a set of control variables such as vectors of particular words present, a vector of "states", for example whether the time was during the presidency of Trump... 
 
 ### Using a GARCH model to observe how DJT's media actions enter volatility dynamics
 
+The GARCH model, specifically GARCH-X if we add another exogenous variable, expresses volatility dynamics and analyzes whether POTUS could impact it. It is composed of two equations, namely the mean equation and the variance equation:
 
+$$
+\begin{aligned}
+r_t = \mu + \boldsymbol{\phi}’ \mathbf{Z}t + \varepsilon_t, \quad \varepsilon_t \sim N(0, h_t) \\
+h_t = \omega + \alpha \varepsilon_{t-1}^2 + \beta h_{t-1}
++ \gamma \cdot \text{Tweets}_t + \boldsymbol{\theta}’ \mathbf{X}_t
+\end{aligned}
+$$
+Where $\mathbf{X_t}$ and $\mathbf{Z_t}$ are the vectors of control variables, respectively for the variance and mean equation.
