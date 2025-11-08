@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>project</title>
+<title>On the curvature of the Phillips curve</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -68,15 +103,42 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#motivation-of-the-project" id="toc-motivation-of-the-project" class="nav-link" data-scroll-target="#motivation-of-the-project">Motivation of the project</a></li>
+  <li><a href="#data-and-sources" id="toc-data-and-sources" class="nav-link" data-scroll-target="#data-and-sources">Data and sources</a>
+  <ul class="collapse">
+  <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
+  <li><a href="#necessary-data-manipulation" id="toc-necessary-data-manipulation" class="nav-link" data-scroll-target="#necessary-data-manipulation">Necessary data manipulation</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-a-bit-of-history" id="toc-introduction-to-a-bit-of-history" class="nav-link" data-scroll-target="#introduction-to-a-bit-of-history">Introduction to a bit of history</a>
+  <ul class="collapse">
+  <li><a href="#what-is-the-phillips-curve" id="toc-what-is-the-phillips-curve" class="nav-link" data-scroll-target="#what-is-the-phillips-curve">What is the Phillips curve?</a></li>
+  <li><a href="#historical-development" id="toc-historical-development" class="nav-link" data-scroll-target="#historical-development">Historical development</a></li>
+  <li><a href="#actual-researches-on-it" id="toc-actual-researches-on-it" class="nav-link" data-scroll-target="#actual-researches-on-it">Actual researches on it</a></li>
+  <li><a href="#improvements-there-could-be-according-to-us" id="toc-improvements-there-could-be-according-to-us" class="nav-link" data-scroll-target="#improvements-there-could-be-according-to-us">Improvements there could be (according to us)</a></li>
+  </ul></li>
+  <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization">Data visualization</a></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">project</h1>
+<h1 class="title">On the curvature of the Phillips curve</h1>
 </div>
 
 
@@ -93,14 +155,36 @@ window.Quarto = {
 </header>
 
 
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic setup</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Projet-Data-Management-Elisa-Adriel.Rproj"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
 <section id="motivation-of-the-project" class="level1">
 <h1>Motivation of the project</h1>
 <p>The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.</p>
 </section>
 <section id="data-and-sources" class="level1">
 <h1>Data and sources</h1>
+<p><strong><em><mark>Note: at the moment, only OECD database available for me don’t know why</mark></em></strong></p>
 <section id="sources" class="level2">
 <h2 class="anchored" data-anchor-id="sources">Sources</h2>
+<p>Our two sources are from the <a href="https://data-explorer.oecd.org/vis?pg=0&amp;snb=1&amp;vw=ov&amp;df%5Bds%5D=dsDisseminateFinalDMZ&amp;df%5Bid%5D=DSD_EO%40DF_EO&amp;df%5Bag%5D=OECD.ECO.MAD&amp;df%5Bvs%5D=&amp;lb=bt&amp;dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&amp;pd=%2C&amp;ly%5Brw%5D=REF_AREA&amp;ly%5Bcl%5D=TIME_PERIOD&amp;ly%5Brs%5D=MEASURE&amp;to%5BTIME_PERIOD%5D=false&amp;lc=fr">OECD Data Explorer’s 117 Economic Outlook</a> and the World Development Indicator.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading OECD data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA OCDE.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 </section>
 <section id="necessary-data-manipulation" class="level2">
 <h2 class="anchored" data-anchor-id="necessary-data-manipulation">Necessary data manipulation</h2>
