@@ -126,7 +126,10 @@ window.Quarto = {
   <li><a href="#improvements-there-could-be-according-to-us" id="toc-improvements-there-could-be-according-to-us" class="nav-link" data-scroll-target="#improvements-there-could-be-according-to-us">Improvements there could be (according to us)</a></li>
   </ul></li>
   <li><a href="#data-visualization" id="toc-data-visualization" class="nav-link" data-scroll-target="#data-visualization">Data visualization</a></li>
-  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a></li>
+  <li><a href="#data-analysis" id="toc-data-analysis" class="nav-link" data-scroll-target="#data-analysis">Data analysis</a>
+  <ul class="collapse">
+  <li><a href="#numerical-model" id="toc-numerical-model" class="nav-link" data-scroll-target="#numerical-model">Numerical model</a></li>
+  </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
   </ul>
@@ -164,7 +167,9 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Projet-Data-Management-Elisa-Adriel.Rproj"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -188,6 +193,47 @@ window.Quarto = {
 </section>
 <section id="necessary-data-manipulation" class="level2">
 <h2 class="anchored" data-anchor-id="necessary-data-manipulation">Necessary data manipulation</h2>
+<p>All the data in OECD is annual and there are many unnecessary columns. We keep only the reference area, measure, time period and observation value of the measure, respectively named <code>country</code>, <code>measure</code>, <code>time</code> and <code>value</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>OECD <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>, Measure, TIME_PERIOD, OBS_VALUE) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">measure =</span> Measure,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> TIME_PERIOD,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> OBS_VALUE</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Countries</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Variables</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">max</span>(time)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Countries</th>
+<th style="text-align: right;">Variables</th>
+<th style="text-align: right;">Start date</th>
+<th style="text-align: right;">End date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">1960</td>
+<td style="text-align: right;">2026</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 </section>
 <section id="introduction-to-a-bit-of-history" class="level1">
@@ -199,13 +245,18 @@ window.Quarto = {
 <p>He derived the following relationship:</p>
 <p><span class="math display">\[
 \frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
-\]</span> Where <span class="math inline">\(\frac{\Delta W}{W}\)</span> represents the rate of change of nominal wages and <span class="math inline">\(U \geq 0\)</span> represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more “supply” of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.</p>
+\]</span></p>
+<p>Where <span class="math inline">\(\frac{\Delta W}{W}\)</span> represents the rate of change of nominal wages and <span class="math inline">\(U \geq 0\)</span> represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more “supply” of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.</p>
 </section>
 <section id="historical-development" class="level2">
 <h2 class="anchored" data-anchor-id="historical-development">Historical development</h2>
 </section>
 <section id="actual-researches-on-it" class="level2">
 <h2 class="anchored" data-anchor-id="actual-researches-on-it">Actual researches on it</h2>
+<p>The newest researches go as far as to develop an open-economy Phillips curve, where inflation is influenced by both wage levels and the exchange rate:</p>
+<p>$$</p>
+<p>$$</p>
+<p>Based on <a href="https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf">Gali &amp; Monacelli (2005)</a></p>
 </section>
 <section id="improvements-there-could-be-according-to-us" class="level2">
 <h2 class="anchored" data-anchor-id="improvements-there-could-be-according-to-us">Improvements there could be (according to us)</h2>
@@ -216,6 +267,9 @@ window.Quarto = {
 </section>
 <section id="data-analysis" class="level1">
 <h1>Data analysis</h1>
+<section id="numerical-model" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-model">Numerical model</h2>
+</section>
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
