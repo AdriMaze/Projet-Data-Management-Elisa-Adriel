@@ -3,3 +3,40 @@ title: "project"
 format: html
 ---
 
+# Motivation of the project
+
+# Data and sources
+
+## Sources
+
+## Necessary data manipulation
+
+# Introduction to a bit of history
+
+## What is the Phillips curve?
+
+## Historical development
+
+## Actual researches on it
+
+## Improvements there could be (according to us)
+
+# Data visualization
+
+# Data analysis
+
+# Conslusion
+
+# Appendix
+
+
+
+
+
+
+
+
+
+
+
+
