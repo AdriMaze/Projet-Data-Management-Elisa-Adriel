@@ -5,6 +5,9 @@ format: html
 
 # Motivation of the project
 
+The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. 
+In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.
+
 # Data and sources
 
 ## Sources
@@ -14,6 +17,18 @@ format: html
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
+
+The curve was conceptualized by William Phillips in 1958 in the [Economica]{.mark} journal. He apparently observed the negative relationship between the increase in nominal wages and unemployment between 1861 and 1957.
+
+*[**Fun fact**: a few people actually now the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, Phillips actually computed the curve ... by hand! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the "statistical observation" of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.]{.mark}*
+
+He derived the following relationship:
+
+$$
+\frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
+$$
+Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U \geq 0$ represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more "supply" of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.
+
 
 ## Historical development
 

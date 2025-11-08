@@ -36,6 +36,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="project_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="project_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -66,6 +95,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="motivation-of-the-project" class="level1">
 <h1>Motivation of the project</h1>
+<p>The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.</p>
 </section>
 <section id="data-and-sources" class="level1">
 <h1>Data and sources</h1>
@@ -80,6 +110,12 @@ ul.task-list li input[type="checkbox"] {
 <h1>Introduction to a bit of history</h1>
 <section id="what-is-the-phillips-curve" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-the-phillips-curve">What is the Phillips curve?</h2>
+<p>The curve was conceptualized by William Phillips in 1958 in the <mark>Economica</mark> journal. He apparently observed the negative relationship between the increase in nominal wages and unemployment between 1861 and 1957.</p>
+<p><em><mark><strong>Fun fact</strong>: a few people actually now the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, Phillips actually computed the curve … by hand! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the “statistical observation” of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.</mark></em></p>
+<p>He derived the following relationship:</p>
+<p><span class="math display">\[
+\frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
+\]</span> Where <span class="math inline">\(\frac{\Delta W}{W}\)</span> represents the rate of change of nominal wages and <span class="math inline">\(U \geq 0\)</span> represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more “supply” of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.</p>
 </section>
 <section id="historical-development" class="level2">
 <h2 class="anchored" data-anchor-id="historical-development">Historical development</h2>
