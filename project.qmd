@@ -102,36 +102,10 @@ Where $\gamma_1$ and $\gamma_2$ are parameters, $\pi_t$ represents domestic infl
 
 ## Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)
 
-Let us have a small, open exchange economy. There is a representative household maximizing infinitely discounted utility:
 
-$$
-\arg\max_{C_{t},N_{t}} {\sum_{t=0}^{+\infty}}{\gamma_1^t U(C_{A,t},N_t)}
-$$
-Where $C_{A,t}$ is composite consumption index, depending on both national consumption $C_t$ and foreign consumption $C_t^{i}$. Every super-indexed variable is a foreign variable. The demand functions arising from optimal goods allocation from the economies' budget constraints is:
 
-$$
-C_t(j) = \left(\frac{P_t(j)}{P_t} \right)^{-\varepsilon}\cdot C_t \\
-C_t^{i}(j) = \left(\frac{P_t^{i}(j)}{P_t^{i}} \right)^{-\varepsilon}\cdot C_t^{i}
-$$
-for all goods $i,j\in[0,1]$, for any country $i$, and $P_t$ is the domestic price index and $P^{i}_t$ the foreign one. If we define $P_{A,t}$ as the global consumer price index (CPI), then we can write the domestic and foreign demands as:
 
-$$
-C_t(j) = (1-\alpha)\cdot\left(\frac{P_t}{P_{A,t}} \right)^{-\eta}\cdot C_t \\
-C_t^{i}(j) = \alpha\cdot\left(\frac{P_t^{i}}{P_{A,t}} \right)^{-\eta}\cdot C_t^{i}
-$$
-[Where $\alpha$ represents the index of openness of the domestic economy.]{.mark}.  From utility maximization, using a Constant Relative Risk Aversion (CRRA) - Isoelastic utility function, we get the following Euler equation and intratemporal optimality condition:
 
-$$
-\gamma_1\cdot \mathbb{E}_t \left[\left(\frac{C_{t+1}}{C_t} \right)^{-\sigma} \cdot \left(\frac{P_{t}}{P_{t+1}} \right)\right]=1 \\
-C_t^\sigma \cdot N_t^\phi = \frac{W_t}{P_t}
-$$
-Which we can log-linearize:
 
-$$
-c_t=\mathbb{E}_t[c_{t+1}]-\frac{1}{\sigma}(r_t-\mathbb{E}_t[\pi_{t+1}]-\rho) \\
-w_t - p_t = \sigma c_t+\phi n_t
-$$
-
-Where inflation is defined as $\pi_t\equiv p_t-p_{t-1}$.
 
 
