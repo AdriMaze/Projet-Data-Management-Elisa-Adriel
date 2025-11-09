@@ -52,6 +52,10 @@ OECD <- OECD |>
     time = TIME_PERIOD,
     value = OBS_VALUE
   ) |>
+  mutate(
+    time = as.numeric(time),
+    value = as.numeric(value)
+  ) |>
   drop_na()
 ```
 
@@ -69,16 +73,21 @@ WDI <- WDI |>
     country = `Country Name`,
     time = Time
   ) |>
+  mutate(
+    time = as.numeric(time),
+    value = as.numeric(ifelse(value == "..", NA, value))
+  ) |>
   drop_na()
 ```
 
 We can now merge both datasets:
 
 ```{r, message = FALSE, warning = FALSE}
-data <- WDI |>
-  inner_join(
-    OECD, by = c("country", "time")
-  )
+data <- full_join(
+    OECD, WDI,
+    by = c("country", "measure", "value", "time")
+  ) |>
+  drop_na()
 ```
 
 
