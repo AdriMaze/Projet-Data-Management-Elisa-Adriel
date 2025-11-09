@@ -118,7 +118,7 @@ $$
 MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 $$
 
-Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t=p_t-p_{t-1}$, is given by:
+Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t \equiv p_t-p_{t-1}$, is given by:
 
 $$
 \pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t
