@@ -18,6 +18,7 @@ library(vroom)
 library(dplyr)
 library(knitr)
 library(tidyr)
+library(ggplot2)
 ```
 
 # Motivation of the project
@@ -61,6 +62,8 @@ OECD <- OECD |>
 
 WDI data is also annual and we also need to get rid of unnecessary columns. We will also use `pivot_longer` in order to group all the different columns for the different variables in a new `measure` column and their values in the `value` one. Also, `Time` will be renamed as `time`.
 
+CHANGE WDI DATA
+
 ```{r, message = FALSE, warning = FALSE}
 WDI <- WDI |>
   select(-c(`Time Code`,`Country Code`)) |>
@@ -76,8 +79,7 @@ WDI <- WDI |>
   mutate(
     time = as.numeric(time),
     value = as.numeric(ifelse(value == "..", NA, value))
-  ) |>
-  drop_na()
+  )
 ```
 
 We can now merge both datasets and get some useful statistics out of them:
@@ -116,7 +118,6 @@ $$
 
 Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U \geq 0$ represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more "supply" of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.
 
-
 ## Historical development
 
 ## Actual researches on it
@@ -132,6 +133,24 @@ Where $\gamma_1$, $\gamma_2$ and $\gamma_3$ are parameters, $\pi_t$ represents d
 ## Improvements there could be (according to us)
 
 # Data visualization
+
+Basic scatter plot for the Phillips curve:
+
+```{r, message = FALSE, warning = FALSE}
+data |>
+  pivot_wider(
+    names_from = "measure",
+    values_from = "value"
+  ) |>
+  select(c("time","country",`Core inflation`,`Unemployment rate`)) |>
+  drop_na() |>
+  mutate(
+    time = as.integer(time)
+  ) |>
+  ggplot(aes(x=`Core inflation`, y=`Unemployment rate`)) +
+  geom_point() +
+  facet_grid(~ country)
+```
 
 # Data analysis
 
