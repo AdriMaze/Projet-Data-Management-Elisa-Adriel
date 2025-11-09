@@ -127,10 +127,10 @@ $$
 Where $\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}$. Real marginal cost $\widehat{mc}_t$ can be found by log-linearizing the firms' nominal marginal cost, which holds for every firm due to the linearity of the production function:
 
 $$
-\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t-\hat{w}_t-\hat{p}_t) \\
+\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t+\hat{p}^f_t-\hat{p}_t) \\
 \Leftrightarrow \widehat{mc}^*_t =(\hat{w}_t-\hat{p}_t-\hat{a}_t)+\alpha \cdot \hat{q}_t
 $$
-Where $\hat{s}_t-\hat{w}_t-\hat{p}_t\equiv \hat{q}_t$ is exactly the formula for the real exchange rate, $\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}$ and $\alpha \equiv \frac{\chi}{1-\chi}$. This allows to derive the final New Keynesian Phillips Curve (NKPC):
+Where $\hat{s}_t+\hat{p}^f_t-\hat{p}_t\equiv \hat{q}_t$ is exactly the formula for the real exchange rate, $\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}$ and $\alpha \equiv \frac{\chi}{1-\chi}$. This allows to derive the final New Keynesian Phillips Curve (NKPC):
 
 $$
 \pi_t =\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\kappa\alpha \cdot \hat{q}_t\\
@@ -145,12 +145,12 @@ With parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa$ and $\gamma_3\equ
 $$
 \text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
 $$
-Using the fact that under imperfect competition, the real unit labor cost is the output gap such that $\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and $\gamma_3\equiv\kappa \alpha$.
+Using the fact that [under imperfect competition, the real unit labor cost is equal to the output gap]{.mark} such that $\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and $\gamma_3\equiv\kappa \alpha$.
 
 $$
 \text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
 $$
-Using Okun's law, which can be expressed as $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv -\frac{\kappa}{\delta}$ and $\gamma_3\equiv\kappa \alpha$.
+Using [Okun's law]{.mark}, which can be expressed as $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv -\frac{\kappa}{\delta}$ and $\gamma_3\equiv\kappa \alpha$.
 
 
 

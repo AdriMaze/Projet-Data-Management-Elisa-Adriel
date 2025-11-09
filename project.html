@@ -298,9 +298,9 @@ MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 \]</span></p>
 <p>Where <span class="math inline">\(\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}\)</span>. Real marginal cost <span class="math inline">\(\widehat{mc}_t\)</span> can be found by log-linearizing the firms’ nominal marginal cost, which holds for every firm due to the linearity of the production function:</p>
 <p><span class="math display">\[
-\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t-\hat{w}_t-\hat{p}_t) \\
+\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t+\hat{p}^f_t-\hat{p}_t) \\
 \Leftrightarrow \widehat{mc}^*_t =(\hat{w}_t-\hat{p}_t-\hat{a}_t)+\alpha \cdot \hat{q}_t
-\]</span> Where <span class="math inline">\(\hat{s}_t-\hat{w}_t-\hat{p}_t\equiv \hat{q}_t\)</span> is exactly the formula for the real exchange rate, <span class="math inline">\(\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}\)</span> and <span class="math inline">\(\alpha \equiv \frac{\chi}{1-\chi}\)</span>. This allows to derive the final New Keynesian Phillips Curve (NKPC):</p>
+\]</span> Where <span class="math inline">\(\hat{s}_t+\hat{p}^f_t-\hat{p}_t\equiv \hat{q}_t\)</span> is exactly the formula for the real exchange rate, <span class="math inline">\(\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}\)</span> and <span class="math inline">\(\alpha \equiv \frac{\chi}{1-\chi}\)</span>. This allows to derive the final New Keynesian Phillips Curve (NKPC):</p>
 <p><span class="math display">\[
 \pi_t =\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\kappa\alpha \cdot \hat{q}_t\\
 \]</span> Which allow us to derive three different possible NKPC:</p>
@@ -309,10 +309,10 @@ MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 \]</span> With parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv \kappa\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
 <p><span class="math display">\[
 \text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
-\]</span> Using the fact that under imperfect competition, the real unit labor cost is the output gap such that <span class="math inline">\(\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv \kappa\varphi\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
+\]</span> Using the fact that <mark>under imperfect competition, the real unit labor cost is equal to the output gap</mark> such that <span class="math inline">\(\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv \kappa\varphi\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
 <p><span class="math display">\[
 \text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
-\]</span> Using Okun’s law, which can be expressed as <span class="math inline">\(-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv -\frac{\kappa}{\delta}\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
+\]</span> Using <mark>Okun’s law</mark>, which can be expressed as <span class="math inline">\(-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv -\frac{\kappa}{\delta}\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
 </section>
 </section>
 
