@@ -131,7 +131,10 @@ window.Quarto = {
   <li><a href="#numerical-model" id="toc-numerical-model" class="nav-link" data-scroll-target="#numerical-model">Numerical model</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
-  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc" id="toc-appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc" class="nav-link" data-scroll-target="#appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc">Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -197,20 +200,20 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>OECD <span class="sc">|&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> OECD <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>, Measure, TIME_PERIOD, OBS_VALUE) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>,</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">measure =</span> Measure,</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> TIME_PERIOD,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> OBS_VALUE</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Countries</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Variables</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">max</span>(time)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>OECD <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Countries</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Variables</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">max</span>(time)) <span class="sc">|&gt;</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
@@ -254,9 +257,10 @@ window.Quarto = {
 <section id="actual-researches-on-it" class="level2">
 <h2 class="anchored" data-anchor-id="actual-researches-on-it">Actual researches on it</h2>
 <p>The newest researches go as far as to develop an open-economy Phillips curve, where inflation is influenced by both wage levels and the exchange rate:</p>
-<p>$$</p>
-<p>$$</p>
-<p>Based on <a href="https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf">Gali &amp; Monacelli (2005)</a></p>
+<p><span class="math display">\[
+\pi_t=\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot x_t + \gamma_3 \cdot q_t
+\]</span></p>
+<p>Where <span class="math inline">\(\gamma_1\)</span>, <span class="math inline">\(\gamma_2\)</span> and <span class="math inline">\(\gamma_3\)</span> are parameters, <span class="math inline">\(\pi_t\)</span> represents domestic inflation and <span class="math inline">\(x_t\)</span> is the (real) output gap and <span class="math inline">\(q_t\)</span> the (real) exchange rate. This equation is based on <a href="https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf">Gali &amp; Monacelli (2005)</a>. See Appendix A for full derivation.</p>
 </section>
 <section id="improvements-there-could-be-according-to-us" class="level2">
 <h2 class="anchored" data-anchor-id="improvements-there-could-be-according-to-us">Improvements there could be (according to us)</h2>
@@ -276,6 +280,40 @@ window.Quarto = {
 </section>
 <section id="appendix" class="level1">
 <h1>Appendix</h1>
+<section id="appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc">Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)</h2>
+<p>In the classical New Keynesian model, the demand side of the economy yields the CES consumption function:</p>
+<p><span class="math display">\[
+C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
+\]</span> For <span class="math inline">\(i\in[0,1]\)</span> firms. Market clears at <span class="math inline">\(Y_t(i)=C_t(i)\)</span>. Firms produce according to a linear production function <span class="math inline">\(Y_t(i)=A_tN_t(i)\)</span> where <span class="math inline">\(a_t\equiv \log{A_t}\)</span> follows an AR(1) process with MA(<span class="math inline">\(\infty\)</span>) representation <span class="math inline">\(a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}\)</span>. Moreover, firms price <em>a la Calvo</em> (1983), where <span class="math inline">\(1-\theta\)</span> (oligopolist) firms can reset prices at level <span class="math inline">\(P_t^*(i)\)</span> in each period, which implies maximizing:</p>
+<p><span class="math display">\[
+\max_{P_t(i)} {\mathbb{E}_t \left[\sum_{k=0}^{+\infty}{(\beta\theta)^k \Lambda_{t,t+k} Y_{t+k|t}\left(P_t^*(i)-MC_{t+k}P_{t+k} \right)} \right]}
+\]</span> Under the demand constraint <span class="math inline">\(Y_{t+k|t}=\left(\frac{P_t^*(i)}{P_t} \right)^{-\varepsilon}\cdot Y_{t+k}\)</span> and the marginal cost of the firm defined as:</p>
+<p><span class="math display">\[
+MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
+\]</span></p>
+<p>Where <span class="math inline">\(S_t\)</span> is the nominal exchange rate and <span class="math inline">\(P_t^f\)</span> is the foreign price index. <mark><span class="math inline">\(\chi\)</span> represents home bias preference, and therefore a natural index for openness to trade</mark> The optimal consumer price index (CPI) inflation condition, where inflation is defined as <span class="math inline">\(\pi_t=p_t-p_{t-1}\)</span>, is given by:</p>
+<p><span class="math display">\[
+\pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t
+\]</span></p>
+<p>Where <span class="math inline">\(\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}\)</span>. Real marginal cost <span class="math inline">\(\widehat{mc}_t\)</span> can be found by log-linearizing the firms’ nominal marginal cost, which holds for every firm due to the linearity of the production function:</p>
+<p><span class="math display">\[
+\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t-\hat{w}_t-\hat{p}_t) \\
+\Leftrightarrow \widehat{mc}^*_t =(\hat{w}_t-\hat{p}_t-\hat{a}_t)+\alpha \cdot \hat{q}_t
+\]</span> Where <span class="math inline">\(\hat{s}_t-\hat{w}_t-\hat{p}_t\equiv \hat{q}_t\)</span> is exactly the formula for the real exchange rate, <span class="math inline">\(\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}\)</span> and <span class="math inline">\(\alpha \equiv \frac{\chi}{1-\chi}\)</span>. This allows to derive the final New Keynesian Phillips Curve (NKPC):</p>
+<p><span class="math display">\[
+\pi_t =\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\kappa\alpha \cdot \hat{q}_t\\
+\]</span> Which allow us to derive three different possible NKPC:</p>
+<p><span class="math display">\[
+\text{NKPC (1):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\gamma_3 \cdot \hat{q}_t
+\]</span> With parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv \kappa\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
+<p><span class="math display">\[
+\text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
+\]</span> Using the fact that under imperfect competition, the real unit labor cost is the output gap such that <span class="math inline">\(\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv \kappa\varphi\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
+<p><span class="math display">\[
+\text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
+\]</span> Using Okun’s law, which can be expressed as <span class="math inline">\(-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t\)</span>, and with parameters <span class="math inline">\(\gamma_1\equiv\beta\)</span>, <span class="math inline">\(\gamma_2\equiv -\frac{\kappa}{\delta}\)</span> and <span class="math inline">\(\gamma_3\equiv\kappa \alpha\)</span>.</p>
+</section>
 </section>
 
 </main>

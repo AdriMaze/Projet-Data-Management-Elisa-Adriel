@@ -42,20 +42,20 @@ OECD <- vroom("data/DATA OCDE.csv")
 All the data in OECD is annual and there are many unnecessary columns. We keep only the reference area, measure, time period and observation value of the measure, respectively named `country`, `measure`, `time` and `value`. 
 
 ```{r, message = FALSE, warning = FALSE}
-OECD |>
+OECD <- OECD |>
   select(`Reference area`, Measure, TIME_PERIOD, OBS_VALUE) |>
   rename(
     country = `Reference area`,
     measure = Measure,
     time = TIME_PERIOD,
     value = OBS_VALUE
-  ) |>
+  )
+OECD |>
   summarise(
     `Countries` = n_distinct(country),
     `Variables` = n_distinct(measure),
     `Start date` = min(time),
-    `End date` = max(time)
-  ) |>
+    `End date` = max(time)) |>
   kable()
 ```
 
@@ -83,10 +83,10 @@ Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U
 The newest researches go as far as to develop an open-economy Phillips curve, where inflation is influenced by both wage levels and the exchange rate:
 
 $$
-\pi_t=\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot x_t
+\pi_t=\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot x_t + \gamma_3 \cdot q_t
 $$
 
-Where $\gamma_1$ and $\gamma_2$ are parameters, $\pi_t$ represents domestic inflation and $x_t$ is the output gap, depending on the exchange rate. This equation is based on [Gali & Monacelli (2005)](https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf). See Appendix A for full derivation.
+Where $\gamma_1$, $\gamma_2$ and $\gamma_3$ are parameters, $\pi_t$ represents domestic inflation and $x_t$ is the (real) output gap and $q_t$ the (real) exchange rate. This equation is based on [Gali & Monacelli (2005)](https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf). See Appendix A for full derivation.
 
 ## Improvements there could be (according to us)
 
@@ -102,7 +102,55 @@ Where $\gamma_1$ and $\gamma_2$ are parameters, $\pi_t$ represents domestic infl
 
 ## Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)
 
+In the classical New Keynesian model, the demand side of the economy yields the CES consumption function:
 
+$$
+C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
+$$
+For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms produce according to a linear production function $Y_t(i)=A_tN_t(i)$ where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$) representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$. Moreover, firms price *a la Calvo* (1983), where $1-\theta$ (oligopolist) firms can reset prices at level $P_t^*(i)$ in each period, which implies maximizing:
+
+$$
+\max_{P_t(i)} {\mathbb{E}_t \left[\sum_{k=0}^{+\infty}{(\beta\theta)^k \Lambda_{t,t+k} Y_{t+k|t}\left(P_t^*(i)-MC_{t+k}P_{t+k} \right)} \right]}
+$$
+Under the demand constraint $Y_{t+k|t}=\left(\frac{P_t^*(i)}{P_t} \right)^{-\varepsilon}\cdot Y_{t+k}$ and the marginal cost of the firm defined as:
+
+$$
+MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
+$$
+
+Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t=p_t-p_{t-1}$, is given by:
+
+$$
+\pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t
+$$
+
+Where $\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}$. Real marginal cost $\widehat{mc}_t$ can be found by log-linearizing the firms' nominal marginal cost, which holds for every firm due to the linearity of the production function:
+
+$$
+\widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t-\hat{w}_t-\hat{p}_t) \\
+\Leftrightarrow \widehat{mc}^*_t =(\hat{w}_t-\hat{p}_t-\hat{a}_t)+\alpha \cdot \hat{q}_t
+$$
+Where $\hat{s}_t-\hat{w}_t-\hat{p}_t\equiv \hat{q}_t$ is exactly the formula for the real exchange rate, $\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}$ and $\alpha \equiv \frac{\chi}{1-\chi}$. This allows to derive the final New Keynesian Phillips Curve (NKPC):
+
+$$
+\pi_t =\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\kappa\alpha \cdot \hat{q}_t\\
+$$
+Which allow us to derive three different possible NKPC:
+
+$$
+\text{NKPC (1):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\gamma_3 \cdot \hat{q}_t
+$$
+With parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa$ and $\gamma_3\equiv\kappa \alpha$.
+
+$$
+\text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
+$$
+Using the fact that under imperfect competition, the real unit labor cost is the output gap such that $\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and $\gamma_3\equiv\kappa \alpha$.
+
+$$
+\text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
+$$
+Using Okun's law, which can be expressed as $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv -\frac{\kappa}{\delta}$ and $\gamma_3\equiv\kappa \alpha$.
 
 
 
