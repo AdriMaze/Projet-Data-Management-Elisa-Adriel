@@ -80,7 +80,7 @@ WDI <- WDI |>
   drop_na()
 ```
 
-We can now merge both datasets:
+We can now merge both datasets and get some useful statistics out of them:
 
 ```{r, message = FALSE, warning = FALSE}
 data <- full_join(
@@ -88,8 +88,17 @@ data <- full_join(
     by = c("country", "measure", "value", "time")
   ) |>
   drop_na()
+data |>
+  summarise(
+    "Countries" = n_distinct(country),
+    "Variables" = n_distinct(measure),
+    "Start date" = min(time),
+    "End date" = max(time)
+  ) |>
+  kable()
 ```
 
+Therefore, our total dataset comprises 57 countries for 52 variables, and spans 1960 to 2026. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
 
 # Introduction to a bit of history
 

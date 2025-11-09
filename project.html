@@ -172,7 +172,8 @@ window.Quarto = {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Libraries</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -185,12 +186,13 @@ window.Quarto = {
 <p><strong><em><mark>Note: at the moment, only OECD database available for me don’t know why</mark></em></strong></p>
 <section id="sources" class="level2">
 <h2 class="anchored" data-anchor-id="sources">Sources</h2>
-<p>Our two sources are from the <a href="https://data-explorer.oecd.org/vis?pg=0&amp;snb=1&amp;vw=ov&amp;df%5Bds%5D=dsDisseminateFinalDMZ&amp;df%5Bid%5D=DSD_EO%40DF_EO&amp;df%5Bag%5D=OECD.ECO.MAD&amp;df%5Bvs%5D=&amp;lb=bt&amp;dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&amp;pd=%2C&amp;ly%5Brw%5D=REF_AREA&amp;ly%5Bcl%5D=TIME_PERIOD&amp;ly%5Brs%5D=MEASURE&amp;to%5BTIME_PERIOD%5D=false&amp;lc=fr">OECD Data Explorer’s 117 Economic Outlook</a> and the World Development Indicator.</p>
+<p>Our two sources are from the <a href="https://data-explorer.oecd.org/vis?pg=0&amp;snb=1&amp;vw=ov&amp;df%5Bds%5D=dsDisseminateFinalDMZ&amp;df%5Bid%5D=DSD_EO%40DF_EO&amp;df%5Bag%5D=OECD.ECO.MAD&amp;df%5Bvs%5D=&amp;lb=bt&amp;dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&amp;pd=%2C&amp;ly%5Brw%5D=REF_AREA&amp;ly%5Bcl%5D=TIME_PERIOD&amp;ly%5Brs%5D=MEASURE&amp;to%5BTIME_PERIOD%5D=false&amp;lc=fr">OECD Data Explorer’s 117 Economic Outlook</a> and the <a href="https://databank.worldbank.org/source/world-development-indicators#">World Development Indicator</a>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading OECD data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA OCDE.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA OCDE.csv"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA WDI.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -207,14 +209,53 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">measure =</span> Measure,</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> TIME_PERIOD,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> OBS_VALUE</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>OECD <span class="sc">|&gt;</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Countries</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Variables</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Start date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">End date</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">max</span>(time)) <span class="sc">|&gt;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>WDI data is also annual and we also need to get rid of unnecessary columns. We will also use <code>pivot_longer</code> in order to group all the different columns for the different variables in a new <code>measure</code> column and their values in the <code>value</code> one. Also, <code>Time</code> will be renamed as <code>time</code>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> WDI <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Time Code</span><span class="st">`</span>,<span class="st">`</span><span class="at">Country Code</span><span class="st">`</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Time</span><span class="st">`</span>,<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measure"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> Time</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(<span class="fu">ifelse</span>(value <span class="sc">==</span> <span class="st">".."</span>, <span class="cn">NA</span>, value))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>We can now merge both datasets and get some useful statistics out of them:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    OECD, WDI,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"measure"</span>, <span class="st">"value"</span>, <span class="st">"time"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Countries"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variables"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Start date"</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End date"</span> <span class="ot">=</span> <span class="fu">max</span>(time)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -228,8 +269,8 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">33</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">52</td>
 <td style="text-align: right;">1960</td>
 <td style="text-align: right;">2026</td>
 </tr>
@@ -237,6 +278,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
+<p>Therefore, our total dataset comprises 57 countries for 52 variables, and spans 1960 to 2026. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.</p>
 </section>
 </section>
 <section id="introduction-to-a-bit-of-history" class="level1">
