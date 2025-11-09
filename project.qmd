@@ -17,6 +17,7 @@ here::i_am("Projet-Data-Management-Elisa-Adriel.Rproj")
 library(vroom)
 library(dplyr)
 library(knitr)
+library(tidyr)
 ```
 
 # Motivation of the project
@@ -30,11 +31,12 @@ In every economics class, the Phillips curve was said to be negatively slopped, 
 
 ## Sources
 
-Our two sources are from the [OECD Data Explorer's 117 Economic Outlook](https://data-explorer.oecd.org/vis?pg=0&snb=1&vw=ov&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EO%40DF_EO&df[ag]=OECD.ECO.MAD&df[vs]=&lb=bt&dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&pd=%2C&ly[rw]=REF_AREA&ly[cl]=TIME_PERIOD&ly[rs]=MEASURE&to[TIME_PERIOD]=false&lc=fr) and the World Development Indicator.
+Our two sources are from the [OECD Data Explorer's 117 Economic Outlook](https://data-explorer.oecd.org/vis?pg=0&snb=1&vw=ov&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EO%40DF_EO&df[ag]=OECD.ECO.MAD&df[vs]=&lb=bt&dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&pd=%2C&ly[rw]=REF_AREA&ly[cl]=TIME_PERIOD&ly[rs]=MEASURE&to[TIME_PERIOD]=false&lc=fr) and the [World Development Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 
 ```{r, message = FALSE, warning = FALSE}
-# Loading OECD data
+# Loading data
 OECD <- vroom("data/DATA OCDE.csv")
+WDI <- vroom("data/DATA WDI.csv")
 ```
 
 ## Necessary data manipulation
@@ -49,15 +51,36 @@ OECD <- OECD |>
     measure = Measure,
     time = TIME_PERIOD,
     value = OBS_VALUE
-  )
-OECD |>
-  summarise(
-    `Countries` = n_distinct(country),
-    `Variables` = n_distinct(measure),
-    `Start date` = min(time),
-    `End date` = max(time)) |>
-  kable()
+  ) |>
+  drop_na()
 ```
+
+WDI data is also annual and we also need to get rid of unnecessary columns. We will also use `pivot_longer` in order to group all the different columns for the different variables in a new `measure` column and their values in the `value` one. Also, `Time` will be renamed as `time`.
+
+```{r, message = FALSE, warning = FALSE}
+WDI <- WDI |>
+  select(-c(`Time Code`,`Country Code`)) |>
+  pivot_longer(
+    cols = -c(`Time`,`Country Name`),
+    names_to = "measure",
+    values_to = "value"
+  ) |>
+  rename(
+    country = `Country Name`,
+    time = Time
+  ) |>
+  drop_na()
+```
+
+We can now merge both datasets:
+
+```{r, message = FALSE, warning = FALSE}
+data <- WDI |>
+  inner_join(
+    OECD, by = c("country", "time")
+  )
+```
+
 
 # Introduction to a bit of history
 
