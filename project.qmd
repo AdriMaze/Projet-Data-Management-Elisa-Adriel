@@ -194,7 +194,7 @@ data_wide <- data_long |>
   )
 ```
 
-Therefore, our total dataset comprises [58 countries for 57 variables, and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
+Therefore, our total dataset comprises [28 countries for 57 variables, and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
 
 # Introduction to a bit of history
 
