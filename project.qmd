@@ -1,11 +1,16 @@
 ---
 title: "On the curvature of the Phillips curve"
+author: "Elisa Colson & Adriel Mazère"
 format: 
   html:
     toc: true
     toc-depth: 3
     toc-location: left
     code-fold: true
+  pdf:
+    code: false
+    execute:
+    echo: false
 ---
 # Setup
 
@@ -19,16 +24,20 @@ library(dplyr)
 library(knitr)
 library(tidyr)
 library(ggplot2)
+library(ggforce)
 ```
 
-# Motivation of the project
+::: {.callout-note}
+## Note
+The `ggforce` package was found on Reddit and provided a better alternative to `facet_wrap`, namely `facet_wrap_paginate`, especially due to the high quantity of different entities (countries) that we face in this dataset.
+:::
+
+# Motivation for the project
 
 The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. 
 In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.
 
 # Data and sources
-
-***[Note: at the moment, only OECD database available for me don't know why]{.mark}***
 
 ## Sources
 
@@ -36,15 +45,18 @@ Our two sources are from the [OECD Data Explorer's 117 Economic Outlook](https:/
 
 ```{r, message = FALSE, warning = FALSE}
 # Loading data
+
 OECD <- vroom("data/DATA OCDE.csv")
 WDI <- vroom("data/DATA WDI.csv")
 ```
 
 ## Necessary data manipulation
 
-All the data in OECD is annual and there are many unnecessary columns. We keep only the reference area, measure, time period and observation value of the measure, respectively named `country`, `measure`, `time` and `value`. 
+All the data in OECD is annual and there are many unnecessary columns. We keep only the [reference area, measure, time period and observation value]{.mark} of the measure, respectively named `country`, `measure`, `time` and `value`. We will also rename all variables such that they will be identifiable from the OECD database, but still recognizable.
 
 ```{r, message = FALSE, warning = FALSE}
+# Manipulating OECD data
+
 OECD <- OECD |>
   select(`Reference area`, Measure, TIME_PERIOD, OBS_VALUE) |>
   rename(
@@ -53,8 +65,52 @@ OECD <- OECD |>
     time = TIME_PERIOD,
     value = OBS_VALUE
   ) |>
+  pivot_wider(
+    names_from = measure,
+    values_from = value
+  ) |>
+  rename(
+    nom.eff.ex.rate.oecd = `Nominal effective exchange rate, chain-linked, overall weights`,
+    labor.prod.oecd = `Labour productivity, total economy`,
+    unit.labor.cost.oecd = `Unit labour cost in total economy`,
+    real.eff.ex.rate.oecd = `Real effective exchange rate, constant trade weights`,
+    terms.trade.oecd = `Terms of trade, goods and services`,
+    ex.rate.LCU.oecd = `Exchange rate, national currency per USD`,
+    pot.y.vol.oecd = `Potential output volume`,
+    emp.tot.oecd = `Total employment (labour force survey basis)`,
+    wages.oecd = `Wages, total economy`,
+    compensation.rate.oecd = `Compensation rate, total economy`,
+    wage.rate.oecd = `Wage rate, total economy`,
+    pot.y.nom.oecd = `Potential output, nominal value`,
+    emp.country.spec.oecd = `Employment, country specific`,
+    pot.emp.oecd = `Potential employment of total economy`,
+    tot.pop.oecd = `Total population`,
+    work.age.oecd = `Working-age population, age 15-74`,
+    gov.emp.oecd = `General government employment`,
+    emp.tot.nat.account.oecd = `Total employment (national accounts basis)`,
+    dependent.emp.oecd = `Dependent employment, total economy`,
+    self.emp.tot.oecd = `Total self-employed`,
+    unemp.level.oecd = `Unemployment, level`,
+    labor.force.oecd = `Labour force`,
+    cpi.oecd = `Consumer price index`,
+    emp.tot.gr.oecd = `Total employment, growth`,
+    st.IR.oecd = `Short-term interest rate`,
+    lt.IR.gov.bonds.oecd = `Long-term interest rate on government bonds`,
+    ecb.IR.oecd = `Central bank key interest rate`,
+    labor.force.participation.work.age.oecd = `Labour force participation rate, as a percentage of population aged 15-74`,
+    core.infl.oecd = `Core inflation`,
+    hours.per.work.oecd = `Hours worked per worker, total economy`,
+    headline.infl.oecd = `Headline inflation`,
+    unemp.rate.oecd = `Unemployment rate`,
+    ex.rate.usd.oecd = `Exchange rate, USD per national currency`
+  ) |>
+  pivot_longer(
+    cols = -c("country","time"),
+    names_to = "measure",
+    values_to = "value"
+  ) |>
   mutate(
-    time = as.numeric(time),
+    time = as.integer(time),
     value = as.numeric(value)
   ) |>
   drop_na()
@@ -62,35 +118,66 @@ OECD <- OECD |>
 
 WDI data is also annual and we also need to get rid of unnecessary columns. We will also use `pivot_longer` in order to group all the different columns for the different variables in a new `measure` column and their values in the `value` one. Also, `Time` will be renamed as `time`.
 
-CHANGE WDI DATA
-
 ```{r, message = FALSE, warning = FALSE}
+# Manipulating WDI
+
 WDI <- WDI |>
-  select(-c(`Time Code`,`Country Code`)) |>
+  select(-c(`Time Code`, `Country Code`)) |>
+  rename(
+    country = `Country Name`,
+    time = Time,
+    cpi.wdi = `Inflation, consumer prices (annual %) [FP.CPI.TOTL.ZG]`,
+    unemp.youth.tot.wdi = `Unemployment, youth total (% of total labor force ages 15-24) (national estimate) [SL.UEM.1524.NE.ZS]`,
+    unemp.tot.wdi = `Unemployment, total (% of total labor force) (national estimate) [SL.UEM.TOTL.NE.ZS]`,
+    unemp.male.wdi = `Unemployment, male (% of male labor force) (national estimate) [SL.UEM.TOTL.MA.NE.ZS]`,
+    unemp.female.wdi = `Unemployment, female (% of female labor force) (national estimate) [SL.UEM.TOTL.FE.NE.ZS]`,
+    unemp.inter.male.wdi = `Unemployment with intermediate education, male (% of male labor force with intermediate education) [SL.UEM.INTM.MA.ZS]`,
+    unemp.inter.female.wdi = `Unemployment with intermediate education, female (% of female labor force with intermediate education) [SL.UEM.INTM.FE.ZS]`,
+    unemp.inter.tot.wdi = `Unemployment with intermediate education (% of total labor force with intermediate education) [SL.UEM.INTM.ZS]`,
+    unemp.basic.male.wdi = `Unemployment with basic education, male (% of male labor force with basic education) [SL.UEM.BASC.MA.ZS]`,
+    unemp.basic.female.wdi = `Unemployment with basic education, female (% of female labor force with basic education) [SL.UEM.BASC.FE.ZS]`,
+    unemp.basic.tot.wdi = `Unemployment with basic education (% of total labor force with basic education) [SL.UEM.BASC.ZS]`,
+    unemp.adv.male.wdi = `Unemployment with advanced education, male (% of male labor force with advanced education) [SL.UEM.ADVN.MA.ZS]`,
+    unemp.adv.female.wdi = `Unemployment with advanced education, female (% of female labor force with advanced education) [SL.UEM.ADVN.FE.ZS]`,
+    unemp.adv.tot.wdi = `Unemployment with advanced education (% of total labor force with advanced education) [SL.UEM.ADVN.ZS]`,
+    cover.benef.ALMP.rich.wdi = `Coverage of unemployment benefits and ALMP in richest quintile (% of population) [per_lm_alllm.cov_q5_tot]`,
+    cover.benef.ALMP.poor.wdi = `Coverage of unemployment benefits and ALMP in poorest quintile (% of population) [per_lm_alllm.cov_q1_tot]`,
+    cover.benef.ALMP.tot.wdi = `Coverage of unemployment benefits and ALMP (% of population) [per_lm_alllm.cov_pop_tot]`,
+    adequacy.cover.ALMP.wdi = `Adequacy of unemployment benefits and ALMP (% of total welfare of beneficiary households) [per_lm_alllm.adq_pop_tot]`,
+    benef.results.poor.wdi = `Benefit incidence of unemployment benefits and ALMP to poorest quintile (% of total U/ALMP benefits) [per_lm_alllm.ben_q1_tot]`,
+    wage.male.wdi = `Wage and salaried workers, male (% of male employment) (modeled ILO estimate) [SL.EMP.WORK.MA.ZS]`,
+    wage.female.wdi = `Wage and salaried workers, female (% of female employment) (modeled ILO estimate) [SL.EMP.WORK.FE.ZS]`,
+    wage.tot.wdi = `Wage and salaried workers, total (% of total employment) (modeled ILO estimate) [SL.EMP.WORK.ZS]`,
+    deflator.wdi = `Inflation, GDP deflator (annual %) [NY.GDP.DEFL.KD.ZG]`,
+    cpi.index.wdi = `Consumer price index (2010 = 100) [FP.CPI.TOTL]`
+  ) |>
   pivot_longer(
-    cols = -c(`Time`,`Country Name`),
+    cols = -c(time, country),
     names_to = "measure",
     values_to = "value"
   ) |>
-  rename(
-    country = `Country Name`,
-    time = Time
-  ) |>
   mutate(
-    time = as.numeric(time),
+    time = as.integer(time),
     value = as.numeric(ifelse(value == "..", NA, value))
-  )
+  ) |>
+  drop_na()
 ```
 
 We can now merge both datasets and get some useful statistics out of them:
 
 ```{r, message = FALSE, warning = FALSE}
-data <- full_join(
-    OECD, WDI,
-    by = c("country", "measure", "value", "time")
-  ) |>
+# Merging data
+data_long <- bind_rows(
+  OECD |>
+    filter(country %in% intersect(OECD$country, WDI$country)),
+  WDI |>
+    filter(country %in% intersect(OECD$country, WDI$country))
+) |>
   drop_na()
-data |>
+
+# Summarizing data
+
+data_long |>
   summarise(
     "Countries" = n_distinct(country),
     "Variables" = n_distinct(measure),
@@ -98,9 +185,16 @@ data |>
     "End date" = max(time)
   ) |>
   kable()
+
+# Transforming the data wide for further use
+data_wide <- data_long |>
+  pivot_wider(
+    names_from = "measure",
+    values_from = "value"
+  )
 ```
 
-Therefore, our total dataset comprises 57 countries for 52 variables, and spans 1960 to 2026. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
+Therefore, our total dataset comprises [58 countries for 57 variables, and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
 
 # Introduction to a bit of history
 
@@ -108,7 +202,13 @@ Therefore, our total dataset comprises 57 countries for 52 variables, and spans 
 
 The curve was conceptualized by William Phillips in 1958 in the [Economica]{.mark} journal. He apparently observed the negative relationship between the increase in nominal wages and unemployment between 1861 and 1957.
 
-*[**Fun fact**: a few people actually now the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, Phillips actually computed the curve ... by hand! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the "statistical observation" of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.]{.mark}*
+
+::: {.callout-tip}
+## Fun fact!
+A few people actually know the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, [Phillips actually computed the curve ... by hand]{.mark}! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the "statistical observation" of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.
+:::
+
+
 
 He derived the following relationship:
 
@@ -116,7 +216,7 @@ $$
 \frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
 $$
 
-Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U \geq 0$ represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more "supply" of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.
+Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U$ represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. [When unemployment increases, the firm has more "supply" of potential workers, therefore, their bargaining power decreases, and so does their wages]{.mark}, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.
 
 ## Historical development
 
@@ -134,23 +234,56 @@ Where $\gamma_1$, $\gamma_2$ and $\gamma_3$ are parameters, $\pi_t$ represents d
 
 # Data visualization
 
-Basic scatter plot for the Phillips curve:
+Let us represent as an "entrée" a basic scatter plot for the Phillips curve for [28 European countries]{.mark} over the period and we are using WDI data because it is more complete:
 
 ```{r, message = FALSE, warning = FALSE}
-data |>
-  pivot_wider(
-    names_from = "measure",
-    values_from = "value"
-  ) |>
-  select(c("time","country",`Core inflation`,`Unemployment rate`)) |>
-  drop_na() |>
-  mutate(
-    time = as.integer(time)
-  ) |>
-  ggplot(aes(x=`Core inflation`, y=`Unemployment rate`)) +
+# First page
+
+data_wide |>
+  select(time, country, cpi.wdi, unemp.tot.wdi) |>
+  ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi)) +
   geom_point() +
-  facet_grid(~ country)
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  facet_wrap_paginate(~ country, ncol = 4, nrow = 3, page = 1, scales = "free") +
+  labs(
+    title = "Phillips Curve",
+    x = "Unemployment rate (%)",
+    y = "Inflation rate (%)"
+  ) +
+  theme_minimal()
+
+# Second page
+
+data_wide |>
+  select(time, country, cpi.wdi, unemp.tot.wdi) |>
+  ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  facet_wrap_paginate(~ country, ncol = 4, nrow = 3, page = 2, scales = "free") +
+  labs(
+    x = "Unemployment rate (%)",
+    y = "Inflation rate (%)"
+  ) +
+  theme_minimal()
+
+# Third page
+
+data_wide |>
+  select(time, country, cpi.wdi, unemp.tot.wdi) |>
+  filter(country %in% c("Spain", "Sweden", "Switzerland", "United Kingdom")) |>
+  ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  facet_wrap(~ country, scales = "free") +
+  labs(
+    x = "Unemployment rate (%)",
+    y = "Inflation rate (%)"
+  ) +
+  theme_minimal()
 ```
+A simple visualization reassures us on theory. We can indeed see that [over the complete span 1960-2026, the Phillips curve seems, for most countries, to obey the theory]{.mark} and display a downward slopping tendency. There are though some surprising results, as for Bulgaria, Romania, Hungary or Slovak Republic, with upward slopping curves, or Latvia, Lithuania, Poland, Slovania, or Iceland with hardly interpretable results. \
+Whether these results are due to true economic tendencies or simply a lack of data or data mismatch will be determined with the analysis. \
+The question of the curvature of the Phillips curve, however, requires the differentiation between periods, say decades or key dates, which will be our next observation.
 
 # Data analysis
 
@@ -167,7 +300,7 @@ In the classical New Keynesian model, the demand side of the economy yields the 
 $$
 C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
 $$
-For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms produce according to a linear production function $Y_t(i)=A_tN_t(i)$ where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$) representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$. Moreover, firms price *a la Calvo* (1983), where $1-\theta$ (oligopolist) firms can reset prices at level $P_t^*(i)$ in each period, which implies maximizing:
+For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms produce according to a linear production function $Y_t(i)=A_tN_t(i)$ where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$) representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$. Moreover, firms price [*a la Calvo* (1983)](https://www.sciencedirect.com/science/article/abs/pii/0304393283900600), where $1-\theta$ (oligopolist) firms can reset prices at level $P_t^*(i)$ in each period, which implies maximizing:
 
 $$
 \max_{P_t(i)} {\mathbb{E}_t \left[\sum_{k=0}^{+\infty}{(\beta\theta)^k \Lambda_{t,t+k} Y_{t+k|t}\left(P_t^*(i)-MC_{t+k}P_{t+k} \right)} \right]}
@@ -178,7 +311,7 @@ $$
 MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 $$
 
-Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t \equiv p_t-p_{t-1}$, is given by:
+Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore is a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t \equiv p_t-p_{t-1}$, is given by:
 
 $$
 \pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t

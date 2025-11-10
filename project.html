@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Elisa Colson &amp; Adriel Mazère">
 
 <title>On the curvature of the Phillips curve</title>
 <style>
@@ -112,7 +113,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#motivation-of-the-project" id="toc-motivation-of-the-project" class="nav-link" data-scroll-target="#motivation-of-the-project">Motivation of the project</a></li>
+  <li><a href="#motivation-for-the-project" id="toc-motivation-for-the-project" class="nav-link" data-scroll-target="#motivation-for-the-project">Motivation for the project</a></li>
   <li><a href="#data-and-sources" id="toc-data-and-sources" class="nav-link" data-scroll-target="#data-and-sources">Data and sources</a>
   <ul class="collapse">
   <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
@@ -136,7 +137,7 @@ window.Quarto = {
   <li><a href="#appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc" id="toc-appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc" class="nav-link" data-scroll-target="#appendix-a-derivation-of-the-open-economy-new-keynesian-phillips-curve-nkpc">Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)</a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="project.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
@@ -151,6 +152,12 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Elisa Colson &amp; Adriel Mazère </p>
+          </div>
+  </div>
     
   
     
@@ -173,17 +180,31 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vroom)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggforce)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>ggforce</code> package was found on Reddit and provided a better alternative to <code>facet_wrap</code>, namely <code>facet_wrap_paginate</code>, especially due to the high quantity of different entities (countries) that we face in this dataset.</p>
+</div>
+</div>
 </section>
-<section id="motivation-of-the-project" class="level1">
-<h1>Motivation of the project</h1>
+<section id="motivation-for-the-project" class="level1">
+<h1>Motivation for the project</h1>
 <p>The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.</p>
 </section>
 <section id="data-and-sources" class="level1">
 <h1>Data and sources</h1>
-<p><strong><em><mark>Note: at the moment, only OECD database available for me don’t know why</mark></em></strong></p>
 <section id="sources" class="level2">
 <h2 class="anchored" data-anchor-id="sources">Sources</h2>
 <p>Our two sources are from the <a href="https://data-explorer.oecd.org/vis?pg=0&amp;snb=1&amp;vw=ov&amp;df%5Bds%5D=dsDisseminateFinalDMZ&amp;df%5Bid%5D=DSD_EO%40DF_EO&amp;df%5Bag%5D=OECD.ECO.MAD&amp;df%5Bvs%5D=&amp;lb=bt&amp;dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&amp;pd=%2C&amp;ly%5Brw%5D=REF_AREA&amp;ly%5Bcl%5D=TIME_PERIOD&amp;ly%5Brs%5D=MEASURE&amp;to%5BTIME_PERIOD%5D=false&amp;lc=fr">OECD Data Explorer’s 117 Economic Outlook</a> and the <a href="https://databank.worldbank.org/source/world-development-indicators#">World Development Indicator</a>.</p>
@@ -191,71 +212,150 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading data</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA OCDE.csv"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA WDI.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA OCDE.csv"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"data/DATA WDI.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="necessary-data-manipulation" class="level2">
 <h2 class="anchored" data-anchor-id="necessary-data-manipulation">Necessary data manipulation</h2>
-<p>All the data in OECD is annual and there are many unnecessary columns. We keep only the reference area, measure, time period and observation value of the measure, respectively named <code>country</code>, <code>measure</code>, <code>time</code> and <code>value</code>.</p>
+<p>All the data in OECD is annual and there are many unnecessary columns. We keep only the <mark>reference area, measure, time period and observation value</mark> of the measure, respectively named <code>country</code>, <code>measure</code>, <code>time</code> and <code>value</code>. We will also rename all variables such that they will be identifiable from the OECD database, but still recognizable.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> OECD <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>, Measure, TIME_PERIOD, OBS_VALUE) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">measure =</span> Measure,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> TIME_PERIOD,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> OBS_VALUE</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time),</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manipulating OECD data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>OECD <span class="ot">&lt;-</span> OECD <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>, Measure, TIME_PERIOD, OBS_VALUE) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Reference area</span><span class="st">`</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">measure =</span> Measure,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> TIME_PERIOD,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> OBS_VALUE</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> measure,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> value</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">nom.eff.ex.rate.oecd =</span> <span class="st">`</span><span class="at">Nominal effective exchange rate, chain-linked, overall weights</span><span class="st">`</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">labor.prod.oecd =</span> <span class="st">`</span><span class="at">Labour productivity, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit.labor.cost.oecd =</span> <span class="st">`</span><span class="at">Unit labour cost in total economy</span><span class="st">`</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">real.eff.ex.rate.oecd =</span> <span class="st">`</span><span class="at">Real effective exchange rate, constant trade weights</span><span class="st">`</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">terms.trade.oecd =</span> <span class="st">`</span><span class="at">Terms of trade, goods and services</span><span class="st">`</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">ex.rate.LCU.oecd =</span> <span class="st">`</span><span class="at">Exchange rate, national currency per USD</span><span class="st">`</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">pot.y.vol.oecd =</span> <span class="st">`</span><span class="at">Potential output volume</span><span class="st">`</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">emp.tot.oecd =</span> <span class="st">`</span><span class="at">Total employment (labour force survey basis)</span><span class="st">`</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">wages.oecd =</span> <span class="st">`</span><span class="at">Wages, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">compensation.rate.oecd =</span> <span class="st">`</span><span class="at">Compensation rate, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">wage.rate.oecd =</span> <span class="st">`</span><span class="at">Wage rate, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">pot.y.nom.oecd =</span> <span class="st">`</span><span class="at">Potential output, nominal value</span><span class="st">`</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">emp.country.spec.oecd =</span> <span class="st">`</span><span class="at">Employment, country specific</span><span class="st">`</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">pot.emp.oecd =</span> <span class="st">`</span><span class="at">Potential employment of total economy</span><span class="st">`</span>,</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">tot.pop.oecd =</span> <span class="st">`</span><span class="at">Total population</span><span class="st">`</span>,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">work.age.oecd =</span> <span class="st">`</span><span class="at">Working-age population, age 15-74</span><span class="st">`</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">gov.emp.oecd =</span> <span class="st">`</span><span class="at">General government employment</span><span class="st">`</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">emp.tot.nat.account.oecd =</span> <span class="st">`</span><span class="at">Total employment (national accounts basis)</span><span class="st">`</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">dependent.emp.oecd =</span> <span class="st">`</span><span class="at">Dependent employment, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">self.emp.tot.oecd =</span> <span class="st">`</span><span class="at">Total self-employed</span><span class="st">`</span>,</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.level.oecd =</span> <span class="st">`</span><span class="at">Unemployment, level</span><span class="st">`</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">labor.force.oecd =</span> <span class="st">`</span><span class="at">Labour force</span><span class="st">`</span>,</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">cpi.oecd =</span> <span class="st">`</span><span class="at">Consumer price index</span><span class="st">`</span>,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">emp.tot.gr.oecd =</span> <span class="st">`</span><span class="at">Total employment, growth</span><span class="st">`</span>,</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">st.IR.oecd =</span> <span class="st">`</span><span class="at">Short-term interest rate</span><span class="st">`</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">lt.IR.gov.bonds.oecd =</span> <span class="st">`</span><span class="at">Long-term interest rate on government bonds</span><span class="st">`</span>,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">ecb.IR.oecd =</span> <span class="st">`</span><span class="at">Central bank key interest rate</span><span class="st">`</span>,</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">labor.force.participation.work.age.oecd =</span> <span class="st">`</span><span class="at">Labour force participation rate, as a percentage of population aged 15-74</span><span class="st">`</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">core.infl.oecd =</span> <span class="st">`</span><span class="at">Core inflation</span><span class="st">`</span>,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">hours.per.work.oecd =</span> <span class="st">`</span><span class="at">Hours worked per worker, total economy</span><span class="st">`</span>,</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">headline.infl.oecd =</span> <span class="st">`</span><span class="at">Headline inflation</span><span class="st">`</span>,</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.rate.oecd =</span> <span class="st">`</span><span class="at">Unemployment rate</span><span class="st">`</span>,</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">ex.rate.usd.oecd =</span> <span class="st">`</span><span class="at">Exchange rate, USD per national currency</span><span class="st">`</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">"country"</span>,<span class="st">"time"</span>),</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measure"</span>,</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.integer</span>(time),</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(value)</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>WDI data is also annual and we also need to get rid of unnecessary columns. We will also use <code>pivot_longer</code> in order to group all the different columns for the different variables in a new <code>measure</code> column and their values in the <code>value</code> one. Also, <code>Time</code> will be renamed as <code>time</code>.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> WDI <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Time Code</span><span class="st">`</span>,<span class="st">`</span><span class="at">Country Code</span><span class="st">`</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Time</span><span class="st">`</span>,<span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measure"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> Time</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.numeric</span>(time),</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(<span class="fu">ifelse</span>(value <span class="sc">==</span> <span class="st">".."</span>, <span class="cn">NA</span>, value))</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manipulating WDI</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>WDI <span class="ot">&lt;-</span> WDI <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">Time Code</span><span class="st">`</span>, <span class="st">`</span><span class="at">Country Code</span><span class="st">`</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="st">`</span><span class="at">Country Name</span><span class="st">`</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> Time,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cpi.wdi =</span> <span class="st">`</span><span class="at">Inflation, consumer prices (annual %) [FP.CPI.TOTL.ZG]</span><span class="st">`</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.youth.tot.wdi =</span> <span class="st">`</span><span class="at">Unemployment, youth total (% of total labor force ages 15-24) (national estimate) [SL.UEM.1524.NE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.tot.wdi =</span> <span class="st">`</span><span class="at">Unemployment, total (% of total labor force) (national estimate) [SL.UEM.TOTL.NE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.male.wdi =</span> <span class="st">`</span><span class="at">Unemployment, male (% of male labor force) (national estimate) [SL.UEM.TOTL.MA.NE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.female.wdi =</span> <span class="st">`</span><span class="at">Unemployment, female (% of female labor force) (national estimate) [SL.UEM.TOTL.FE.NE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.inter.male.wdi =</span> <span class="st">`</span><span class="at">Unemployment with intermediate education, male (% of male labor force with intermediate education) [SL.UEM.INTM.MA.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.inter.female.wdi =</span> <span class="st">`</span><span class="at">Unemployment with intermediate education, female (% of female labor force with intermediate education) [SL.UEM.INTM.FE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.inter.tot.wdi =</span> <span class="st">`</span><span class="at">Unemployment with intermediate education (% of total labor force with intermediate education) [SL.UEM.INTM.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.basic.male.wdi =</span> <span class="st">`</span><span class="at">Unemployment with basic education, male (% of male labor force with basic education) [SL.UEM.BASC.MA.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.basic.female.wdi =</span> <span class="st">`</span><span class="at">Unemployment with basic education, female (% of female labor force with basic education) [SL.UEM.BASC.FE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.basic.tot.wdi =</span> <span class="st">`</span><span class="at">Unemployment with basic education (% of total labor force with basic education) [SL.UEM.BASC.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.adv.male.wdi =</span> <span class="st">`</span><span class="at">Unemployment with advanced education, male (% of male labor force with advanced education) [SL.UEM.ADVN.MA.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.adv.female.wdi =</span> <span class="st">`</span><span class="at">Unemployment with advanced education, female (% of female labor force with advanced education) [SL.UEM.ADVN.FE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">unemp.adv.tot.wdi =</span> <span class="st">`</span><span class="at">Unemployment with advanced education (% of total labor force with advanced education) [SL.UEM.ADVN.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">cover.benef.ALMP.rich.wdi =</span> <span class="st">`</span><span class="at">Coverage of unemployment benefits and ALMP in richest quintile (% of population) [per_lm_alllm.cov_q5_tot]</span><span class="st">`</span>,</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">cover.benef.ALMP.poor.wdi =</span> <span class="st">`</span><span class="at">Coverage of unemployment benefits and ALMP in poorest quintile (% of population) [per_lm_alllm.cov_q1_tot]</span><span class="st">`</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">cover.benef.ALMP.tot.wdi =</span> <span class="st">`</span><span class="at">Coverage of unemployment benefits and ALMP (% of population) [per_lm_alllm.cov_pop_tot]</span><span class="st">`</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">adequacy.cover.ALMP.wdi =</span> <span class="st">`</span><span class="at">Adequacy of unemployment benefits and ALMP (% of total welfare of beneficiary households) [per_lm_alllm.adq_pop_tot]</span><span class="st">`</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">benef.results.poor.wdi =</span> <span class="st">`</span><span class="at">Benefit incidence of unemployment benefits and ALMP to poorest quintile (% of total U/ALMP benefits) [per_lm_alllm.ben_q1_tot]</span><span class="st">`</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">wage.male.wdi =</span> <span class="st">`</span><span class="at">Wage and salaried workers, male (% of male employment) (modeled ILO estimate) [SL.EMP.WORK.MA.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">wage.female.wdi =</span> <span class="st">`</span><span class="at">Wage and salaried workers, female (% of female employment) (modeled ILO estimate) [SL.EMP.WORK.FE.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">wage.tot.wdi =</span> <span class="st">`</span><span class="at">Wage and salaried workers, total (% of total employment) (modeled ILO estimate) [SL.EMP.WORK.ZS]</span><span class="st">`</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">deflator.wdi =</span> <span class="st">`</span><span class="at">Inflation, GDP deflator (annual %) [NY.GDP.DEFL.KD.ZG]</span><span class="st">`</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">cpi.index.wdi =</span> <span class="st">`</span><span class="at">Consumer price index (2010 = 100) [FP.CPI.TOTL]</span><span class="st">`</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(time, country),</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"measure"</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"value"</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> <span class="fu">as.integer</span>(time),</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">as.numeric</span>(<span class="fu">ifelse</span>(value <span class="sc">==</span> <span class="st">".."</span>, <span class="cn">NA</span>, value))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <p>We can now merge both datasets and get some useful statistics out of them:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">full_join</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    OECD, WDI,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"measure"</span>, <span class="st">"value"</span>, <span class="st">"time"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Countries"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variables"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Start date"</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End date"</span> <span class="ot">=</span> <span class="fu">max</span>(time)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merging data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data_long <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  OECD <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">intersect</span>(OECD<span class="sc">$</span>country, WDI<span class="sc">$</span>country)),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  WDI <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">intersect</span>(OECD<span class="sc">$</span>country, WDI<span class="sc">$</span>country))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarizing data</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>data_long <span class="sc">|&gt;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Countries"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(country),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variables"</span> <span class="ot">=</span> <span class="fu">n_distinct</span>(measure),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Start date"</span> <span class="ot">=</span> <span class="fu">min</span>(time),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End date"</span> <span class="ot">=</span> <span class="fu">max</span>(time)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -269,16 +369,25 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">28</td>
 <td style="text-align: right;">57</td>
-<td style="text-align: right;">52</td>
 <td style="text-align: right;">1960</td>
 <td style="text-align: right;">2026</td>
 </tr>
 </tbody>
 </table>
 </div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming the data wide for further use</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>data_wide <span class="ot">&lt;-</span> data_long <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> <span class="st">"measure"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="st">"value"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<p>Therefore, our total dataset comprises 57 countries for 52 variables, and spans 1960 to 2026. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.</p>
+<p>Therefore, our total dataset comprises <mark>58 countries for 57 variables, and spans 1960 to 2026</mark>. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.</p>
 </section>
 </section>
 <section id="introduction-to-a-bit-of-history" class="level1">
@@ -286,12 +395,24 @@ window.Quarto = {
 <section id="what-is-the-phillips-curve" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-the-phillips-curve">What is the Phillips curve?</h2>
 <p>The curve was conceptualized by William Phillips in 1958 in the <mark>Economica</mark> journal. He apparently observed the negative relationship between the increase in nominal wages and unemployment between 1861 and 1957.</p>
-<p><em><mark><strong>Fun fact</strong>: a few people actually now the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, Phillips actually computed the curve … by hand! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the “statistical observation” of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.</mark></em></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Fun fact!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A few people actually know the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, <mark>Phillips actually computed the curve … by hand</mark>! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the “statistical observation” of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.</p>
+</div>
+</div>
 <p>He derived the following relationship:</p>
 <p><span class="math display">\[
 \frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
 \]</span></p>
-<p>Where <span class="math inline">\(\frac{\Delta W}{W}\)</span> represents the rate of change of nominal wages and <span class="math inline">\(U \geq 0\)</span> represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. When unemployment increases, the firm has more “supply” of potential workers, therefore, their bargaining power decreases, and so does their wages, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.</p>
+<p>Where <span class="math inline">\(\frac{\Delta W}{W}\)</span> represents the rate of change of nominal wages and <span class="math inline">\(U\)</span> represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. <mark>When unemployment increases, the firm has more “supply” of potential workers, therefore, their bargaining power decreases, and so does their wages</mark>, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.</p>
 </section>
 <section id="historical-development" class="level2">
 <h2 class="anchored" data-anchor-id="historical-development">Historical development</h2>
@@ -310,6 +431,83 @@ window.Quarto = {
 </section>
 <section id="data-visualization" class="level1">
 <h1>Data visualization</h1>
+<p>Let us represent as an “entrée” a basic scatter plot for the Phillips curve for <mark>28 European countries</mark> over the period and we are using WDI data because it is more complete:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First page</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data_wide <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time, country, cpi.wdi, unemp.tot.wdi) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> unemp.tot.wdi, <span class="at">y =</span> cpi.wdi)) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap_paginate</span>(<span class="sc">~</span> country, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">page =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Phillips Curve"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unemployment rate (%)"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Inflation rate (%)"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Second page</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data_wide <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time, country, cpi.wdi, unemp.tot.wdi) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> unemp.tot.wdi, <span class="at">y =</span> cpi.wdi)) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap_paginate</span>(<span class="sc">~</span> country, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">page =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unemployment rate (%)"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Inflation rate (%)"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Third page</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>data_wide <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(time, country, cpi.wdi, unemp.tot.wdi) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Spain"</span>, <span class="st">"Sweden"</span>, <span class="st">"Switzerland"</span>, <span class="st">"United Kingdom"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> unemp.tot.wdi, <span class="at">y =</span> cpi.wdi)) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> country, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unemployment rate (%)"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Inflation rate (%)"</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="project_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A simple visualization reassures us on theory. We can indeed see that <mark>over the complete span 1960-2026, the Phillips curve seems, for most countries, to obey the theory</mark> and display a downward slopping tendency. There are though some surprising results, as for Bulgaria, Romania, Hungary or Slovak Republic, with upward slopping curves, or Latvia, Lithuania, Poland, Slovania, or Iceland with hardly interpretable results.<br>
+Whether these results are due to true economic tendencies or simply a lack of data or data mismatch will be determined with the analysis.<br>
+The question of the curvature of the Phillips curve, however, requires the differentiation between periods, say decades or key dates, which will be our next observation.</p>
 </section>
 <section id="data-analysis" class="level1">
 <h1>Data analysis</h1>
@@ -327,14 +525,14 @@ window.Quarto = {
 <p>In the classical New Keynesian model, the demand side of the economy yields the CES consumption function:</p>
 <p><span class="math display">\[
 C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
-\]</span> For <span class="math inline">\(i\in[0,1]\)</span> firms. Market clears at <span class="math inline">\(Y_t(i)=C_t(i)\)</span>. Firms produce according to a linear production function <span class="math inline">\(Y_t(i)=A_tN_t(i)\)</span> where <span class="math inline">\(a_t\equiv \log{A_t}\)</span> follows an AR(1) process with MA(<span class="math inline">\(\infty\)</span>) representation <span class="math inline">\(a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}\)</span>. Moreover, firms price <em>a la Calvo</em> (1983), where <span class="math inline">\(1-\theta\)</span> (oligopolist) firms can reset prices at level <span class="math inline">\(P_t^*(i)\)</span> in each period, which implies maximizing:</p>
+\]</span> For <span class="math inline">\(i\in[0,1]\)</span> firms. Market clears at <span class="math inline">\(Y_t(i)=C_t(i)\)</span>. Firms produce according to a linear production function <span class="math inline">\(Y_t(i)=A_tN_t(i)\)</span> where <span class="math inline">\(a_t\equiv \log{A_t}\)</span> follows an AR(1) process with MA(<span class="math inline">\(\infty\)</span>) representation <span class="math inline">\(a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}\)</span>. Moreover, firms price <a href="https://www.sciencedirect.com/science/article/abs/pii/0304393283900600"><em>a la Calvo</em> (1983)</a>, where <span class="math inline">\(1-\theta\)</span> (oligopolist) firms can reset prices at level <span class="math inline">\(P_t^*(i)\)</span> in each period, which implies maximizing:</p>
 <p><span class="math display">\[
 \max_{P_t(i)} {\mathbb{E}_t \left[\sum_{k=0}^{+\infty}{(\beta\theta)^k \Lambda_{t,t+k} Y_{t+k|t}\left(P_t^*(i)-MC_{t+k}P_{t+k} \right)} \right]}
 \]</span> Under the demand constraint <span class="math inline">\(Y_{t+k|t}=\left(\frac{P_t^*(i)}{P_t} \right)^{-\varepsilon}\cdot Y_{t+k}\)</span> and the marginal cost of the firm defined as:</p>
 <p><span class="math display">\[
 MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 \]</span></p>
-<p>Where <span class="math inline">\(S_t\)</span> is the nominal exchange rate and <span class="math inline">\(P_t^f\)</span> is the foreign price index. <mark><span class="math inline">\(\chi\)</span> represents home bias preference, and therefore a natural index for openness to trade</mark> The optimal consumer price index (CPI) inflation condition, where inflation is defined as <span class="math inline">\(\pi_t \equiv p_t-p_{t-1}\)</span>, is given by:</p>
+<p>Where <span class="math inline">\(S_t\)</span> is the nominal exchange rate and <span class="math inline">\(P_t^f\)</span> is the foreign price index. <mark><span class="math inline">\(\chi\)</span> represents home bias preference, and therefore is a natural index for openness to trade</mark> The optimal consumer price index (CPI) inflation condition, where inflation is defined as <span class="math inline">\(\pi_t \equiv p_t-p_{t-1}\)</span>, is given by:</p>
 <p><span class="math display">\[
 \pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t
 \]</span></p>
