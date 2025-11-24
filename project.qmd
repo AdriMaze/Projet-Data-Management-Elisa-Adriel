@@ -11,7 +11,11 @@ format:
     code: false
     execute:
     echo: false
+editor: 
+  markdown: 
+    wrap: 72
 ---
+
 # Setup
 
 ```{r, message = FALSE, warning = FALSE}
@@ -27,21 +31,36 @@ library(ggplot2)
 library(ggforce)
 ```
 
-::: {.callout-note}
+::: callout-note
 ## Note
-The `ggforce` package was found on Reddit and provided a better alternative to `facet_wrap`, namely `facet_wrap_paginate`, especially due to the high quantity of different entities (countries) that we face in this dataset.
+
+The `ggforce` package was found on Reddit and provided a better
+alternative to `facet_wrap`, namely `facet_wrap_paginate`, especially
+due to the high quantity of different entities (countries) that we face
+in this dataset.
 :::
 
 # Motivation for the project
 
-The dynamics in the labor market are the most complicated out of all markets, because it mixes the humane reasoning and the economic one. The Phillips curve has always been a reference tool because of the simplicity of the relationship between prices and unemployment it created. This relationship could not only provide an analytically point of view about the conjuncture, but also a policy tool. 
-In every economics class, the Phillips curve was said to be negatively slopped, but as one progresses, it realizes that this is less and less the case and that multiple other underlying factors actually drive these two forces. This is what we try to explore today.
+The dynamics in the labor market are the most complicated out of all
+markets, because it mixes the humane reasoning and the economic one. The
+Phillips curve has always been a reference tool because of the
+simplicity of the relationship between prices and unemployment it
+created. This relationship could not only provide an analytically point
+of view about the conjuncture, but also a policy tool. In every
+economics class, the Phillips curve was said to be negatively slopped,
+but as one progresses, it realizes that this is less and less the case
+and that multiple other underlying factors actually drive these two
+forces. This is what we try to explore today.
 
 # Data and sources
 
 ## Sources
 
-Our two sources are from the [OECD Data Explorer's 117 Economic Outlook](https://data-explorer.oecd.org/vis?pg=0&snb=1&vw=ov&df[ds]=dsDisseminateFinalDMZ&df[id]=DSD_EO%40DF_EO&df[ag]=OECD.ECO.MAD&df[vs]=&lb=bt&dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&pd=%2C&ly[rw]=REF_AREA&ly[cl]=TIME_PERIOD&ly[rs]=MEASURE&to[TIME_PERIOD]=false&lc=fr) and the [World Development Indicator](https://databank.worldbank.org/source/world-development-indicators#).
+Our two sources are from the [OECD Data Explorer's 117 Economic
+Outlook](https://data-explorer.oecd.org/vis?pg=0&snb=1&vw=ov&df%5Bds%5D=dsDisseminateFinalDMZ&df%5Bid%5D=DSD_EO%40DF_EO&df%5Bag%5D=OECD.ECO.MAD&df%5Bvs%5D=&lb=bt&dq=DEU%2BAUT%2BBEL%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGRC%2BHUN%2BISL%2BIRL%2BITA%2BLVA%2BLTU%2BLUX%2BNOR%2BNLD%2BPOL%2BPRT%2BSVK%2BGBR%2BSVN%2BSWE%2BCHE%2BBGR%2BHRV%2BROU.IRS%2BIRCB%2BIRL%2BUN%2BES%2BWSST%2BEE%2BECSA%2BEG%2BHRS%2BLF%2BLFPR1574%2BET%2BET_NA%2BPOP%2BULC%2BPOP1574%2BCPI%2BETPT%2BGDPVTR%2BGDPTR%2BET_ANNPCT%2BTTRADE%2BWRT%2BWAGE%2BPCORE_YTYPCT%2BCPI_YTYPCT%2BUNR%2BPDTY.A&pd=%2C&ly%5Brw%5D=REF_AREA&ly%5Bcl%5D=TIME_PERIOD&ly%5Brs%5D=MEASURE&to%5BTIME_PERIOD%5D=false&lc=fr)
+and the [World Development
+Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 
 ```{r, message = FALSE, warning = FALSE}
 # Loading data
@@ -52,7 +71,11 @@ WDI <- vroom("data/DATA WDI.csv")
 
 ## Necessary data manipulation
 
-All the data in OECD is annual and there are many unnecessary columns. We keep only the [reference area, measure, time period and observation value]{.mark} of the measure, respectively named `country`, `measure`, `time` and `value`. We will also rename all variables such that they will be identifiable from the OECD database, but still recognizable.
+All the data in OECD is annual and there are many unnecessary columns.
+We keep only the [reference area, measure, time period and observation
+value]{.mark} of the measure, respectively named `country`, `measure`,
+`time` and `value`. We will also rename all variables such that they
+will be identifiable from the OECD database, but still recognizable.
 
 ```{r, message = FALSE, warning = FALSE}
 # Manipulating OECD data
@@ -116,7 +139,11 @@ OECD <- OECD |>
   drop_na()
 ```
 
-WDI data is also annual and we also need to get rid of unnecessary columns. We will also use `pivot_longer` in order to group all the different columns for the different variables in a new `measure` column and their values in the `value` one. Also, `Time` will be renamed as `time`.
+WDI data is also annual and we also need to get rid of unnecessary
+columns. We will also use `pivot_longer` in order to group all the
+different columns for the different variables in a new `measure` column
+and their values in the `value` one. Also, `Time` will be renamed as
+`time`.
 
 ```{r, message = FALSE, warning = FALSE}
 # Manipulating WDI
@@ -163,7 +190,8 @@ WDI <- WDI |>
   drop_na()
 ```
 
-We can now merge both datasets and get some useful statistics out of them:
+We can now merge both datasets and get some useful statistics out of
+them:
 
 ```{r, message = FALSE, warning = FALSE}
 # Merging data
@@ -194,21 +222,33 @@ data_wide <- data_long |>
   )
 ```
 
-Therefore, our total dataset comprises [28 countries for 57 variables, and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we will reduce this dataset and use subsets, which will be specified every time.
+Therefore, our total dataset comprises [28 countries for 57 variables,
+and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
+will reduce this dataset and use subsets, which will be specified every
+time.
 
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
 
-The curve was conceptualized by William Phillips in 1958 in the [Economica]{.mark} journal. He apparently observed the negative relationship between the increase in nominal wages and unemployment between 1861 and 1957.
+The curve was conceptualized by William Phillips in 1958 in the
+[Economica]{.mark} journal. He apparently observed the negative
+relationship between the increase in nominal wages and unemployment
+between 1861 and 1957.
 
-
-::: {.callout-tip}
+::: callout-tip
 ## Fun fact!
-A few people actually know the true story behind this curve, but according to a friend of Phillips who then worked at the ECB and passed down this story in the Financial Analysis department, [Phillips actually computed the curve ... by hand]{.mark}! In fact, he took the data, created 5 or so averages and observed the negative relationship in the graph. This is the true (yet not so sexy and serious) story behind the "statistical observation" of this curve. Although his work was thereafter taken by other brilliant economist, which found (not so strong though) similar relationships.
+
+A few people actually know the true story behind this curve, but
+according to a friend of Phillips who then worked at the ECB and passed
+down this story in the Financial Analysis department, [Phillips actually
+computed the curve ... by hand]{.mark}! In fact, he took the data,
+created 5 or so averages and observed the negative relationship in the
+graph. This is the true (yet not so sexy and serious) story behind the
+"statistical observation" of this curve. Although his work was
+thereafter taken by other brilliant economist, which found (not so
+strong though) similar relationships.
 :::
-
-
 
 He derived the following relationship:
 
@@ -216,25 +256,64 @@ $$
 \frac{\Delta W}{W}=\alpha\cdot U^{-\beta}-\gamma
 $$
 
-Where $\frac{\Delta W}{W}$ represents the rate of change of nominal wages and $U$ represents unemployment. The rest are parameters. This equation has a very practical theoretical reasoning which serves as a strong foundation for wage bargaining theory, which itself lies in the center of labor market economics. [When unemployment increases, the firm has more "supply" of potential workers, therefore, their bargaining power decreases, and so does their wages]{.mark}, which in turns create a decrease in prices, because firms can supply more. Vice-versa if unemployment decreases.
+Where $\frac{\Delta W}{W}$ represents the rate of change of nominal
+wages and $U$ represents unemployment. The rest are parameters. This
+equation has a very practical theoretical reasoning which serves as a
+strong foundation for wage bargaining theory, which itself lies in the
+center of labor market economics. [When unemployment increases, the firm
+has more "supply" of potential workers, therefore, their bargaining
+power decreases, and so does their wages]{.mark}, which in turns create
+a decrease in prices, because firms can supply more. Vice-versa if
+unemployment decreases.
 
 ## Historical development
 
+The study of British data confirmed the existence of an inverse
+relationship between unemployment and the rate of change in nominal
+wages. Popularized as the “Phillips curve,” this relationship quickly
+became fundamental for two reasons. It allowed Keynesian macroeconomics
+to move from a static to a dynamic framework by introducing a mechanism
+that links output, employment, and price evolution over time. In the
+original Keynesian model, with fixed prices, fluctuations in activity
+were explained by changes in demand, but the model did not account for
+price dynamics. The Phillips curve filled this gap: for a given period,
+demand determines output and employment, which in turn determine
+unemployment. Through the Phillips relationship, unemployment then
+affects wage growth, and if wage changes pass through to prices, it
+drives inflation dynamics from one period to the next.
+
+Later, in 1960, Samuelson and Solow extended the Phillips framework
+using U.S. data from 1900 to 1960. Assuming that wage variations
+translate into prices through production costs, they reformulated the
+original relationship between unemployment and wage inflation into one
+between unemployment and price inflation. This version of the Phillips
+curve suggested a possible trade-off between inflation and unemployment,
+with profound implications for economic policy
+
 ## Actual researches on it
 
-The newest researches go as far as to develop an open-economy Phillips curve, where inflation is influenced by both wage levels and the exchange rate:
+The newest researches go as far as to develop an open-economy Phillips
+curve, where inflation is influenced by both wage levels and the
+exchange rate:
 
 $$
 \pi_t=\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot x_t + \gamma_3 \cdot q_t
 $$
 
-Where $\gamma_1$, $\gamma_2$ and $\gamma_3$ are parameters, $\pi_t$ represents domestic inflation and $x_t$ is the (real) output gap and $q_t$ the (real) exchange rate. This equation is based on [Gali & Monacelli (2005)](https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf). See Appendix A for full derivation.
+Where $\gamma_1$, $\gamma_2$ and $\gamma_3$ are parameters, $\pi_t$
+represents domestic inflation and $x_t$ is the (real) output gap and
+$q_t$ the (real) exchange rate. This equation is based on [Gali &
+Monacelli
+(2005)](https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf).
+See Appendix A for full derivation.
 
 ## Improvements there could be (according to us)
 
 # Data visualization
 
-Let us represent as an "entrée" a basic scatter plot for the Phillips curve for [28 European countries]{.mark} over the period and we are using WDI data because it is more complete:
+Let us represent as an "entrée" a basic scatter plot for the Phillips
+curve for [28 European countries]{.mark} over the period and we are
+using WDI data because it is more complete:
 
 ```{r, message = FALSE, warning = FALSE}
 # First page
@@ -281,9 +360,79 @@ data_wide |>
   ) +
   theme_minimal()
 ```
-A simple visualization reassures us on theory. We can indeed see that [over the complete span 1960-2026, the Phillips curve seems, for most countries, to obey the theory]{.mark} and display a downward slopping tendency. There are though some surprising results, as for Bulgaria, Romania, Hungary or Slovak Republic, with upward slopping curves, or Latvia, Lithuania, Poland, Slovania, or Iceland with hardly interpretable results. \
-Whether these results are due to true economic tendencies or simply a lack of data or data mismatch will be determined with the analysis. \
-The question of the curvature of the Phillips curve, however, requires the differentiation between periods, say decades or key dates, which will be our next observation.
+
+A simple visualization reassures us on theory. We can indeed see that
+[over the complete span 1960-2026, the Phillips curve seems, for most
+countries, to obey the theory]{.mark} and display a downward slopping
+tendency. There are though some surprising results, as for Bulgaria,
+Romania, Hungary or Slovak Republic, with upward slopping curves, or
+Latvia, Lithuania, Poland, Slovania, or Iceland with hardly
+interpretable results.\
+Whether these results are due to true economic tendencies or simply a
+lack of data or data mismatch will be determined with the analysis.\
+The question of the curvature of the Phillips curve, however, requires
+the differentiation between periods, say decades or key dates, which
+will be our next observation.
+
+## Before/after 1990
+
+We focus on 1990 as the dividing year because it marks a significant
+structural shift in the European and global economy. Around this time,
+Europe experienced major political and economic transformations,
+including the fall of the Berlin Wall, the reunification of Germany, and
+the liberalization of formerly planned economies in Eastern Europe.
+These events altered labor markets, inflation dynamics, and
+macroeconomic policies across the continent. Additionally, the early
+1990s coincide with the widespread adoption of modern central banking
+practices, with many European countries emphasizing stricter inflation
+targeting. Using 1990 as a breakpoint allows us to examine how the
+Phillips curve relationship between unemployment and inflation may have
+changed before and after these structural shifts.
+
+remarque pr le MAZERE : les pays sans données bleues (cad avant 90) on
+les tej ? et j'ai choisi 90 mais on peut prendre aussi 2008 idk what u
+prefer
+
+```{r, message = FALSE, warning = FALSE}
+
+# Ajouter variable period
+data_wide <- data_wide %>%
+  mutate(period = if_else(time < 1990, "Before 1990", "After 1990"))
+
+# Paramètres des pages
+ncol_page <- 4
+nrow_page <- 3
+total_pages <- ceiling(length(unique(data_wide$country)) / (ncol_page * nrow_page))
+
+# Boucle pour créer toutes les pages
+for (i in 1:total_pages) {
+  p <- data_wide %>%
+    ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi, color = period)) +
+    geom_point(alpha = 0.6) +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+    facet_wrap_paginate(~ country, ncol = ncol_page, nrow = nrow_page, page = i, scales = "free") +
+    labs(
+      title = paste("Phillips Curve: Before vs After 1990 — Page", i),
+      x = "Unemployment rate (%)",
+      y = "Inflation rate (%)",
+      color = "Period"
+    ) +
+    theme_minimal()
+  
+  print(p)
+
+}
+```
+
+The Phillips Curve graphs compare inflation and unemployment rates
+before and after 1990 across various countries. Before 1990, many
+nations, like France and Spain, show a clearer inverse relationship,
+aligning with the traditional Phillips Curve theory. However, post-1990,
+this relationship often weakens or disappears, as seen in Germany and
+the UK, suggesting shifts in economic dynamics. Furthermore, some
+countries, such as Lithuania and Latvia, lack pre-1990 data.
+
+## Focus on one country : France ? 
 
 # Data analysis
 
@@ -295,58 +444,75 @@ The question of the curvature of the Phillips curve, however, requires the diffe
 
 ## Appendix A: Derivation of the open economy New Keynesian Phillips Curve (NKPC)
 
-In the classical New Keynesian model, the demand side of the economy yields the CES consumption function:
+In the classical New Keynesian model, the demand side of the economy
+yields the CES consumption function:
 
 $$
 C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
-$$
-For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms produce according to a linear production function $Y_t(i)=A_tN_t(i)$ where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$) representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$. Moreover, firms price [*a la Calvo* (1983)](https://www.sciencedirect.com/science/article/abs/pii/0304393283900600), where $1-\theta$ (oligopolist) firms can reset prices at level $P_t^*(i)$ in each period, which implies maximizing:
+$$ For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms
+produce according to a linear production function $Y_t(i)=A_tN_t(i)$
+where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$)
+representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$.
+Moreover, firms price [*a la Calvo*
+(1983)](https://www.sciencedirect.com/science/article/abs/pii/0304393283900600),
+where $1-\theta$ (oligopolist) firms can reset prices at level
+$P_t^*(i)$ in each period, which implies maximizing:
 
 $$
 \max_{P_t(i)} {\mathbb{E}_t \left[\sum_{k=0}^{+\infty}{(\beta\theta)^k \Lambda_{t,t+k} Y_{t+k|t}\left(P_t^*(i)-MC_{t+k}P_{t+k} \right)} \right]}
-$$
-Under the demand constraint $Y_{t+k|t}=\left(\frac{P_t^*(i)}{P_t} \right)^{-\varepsilon}\cdot Y_{t+k}$ and the marginal cost of the firm defined as:
+$$ Under the demand constraint
+$Y_{t+k|t}=\left(\frac{P_t^*(i)}{P_t} \right)^{-\varepsilon}\cdot Y_{t+k}$
+and the marginal cost of the firm defined as:
 
 $$
 MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 $$
 
-Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign price index. [$\chi$ represents home bias preference, and therefore is a natural index for openness to trade]{.mark} The optimal consumer price index (CPI) inflation condition, where inflation is defined as $\pi_t \equiv p_t-p_{t-1}$, is given by:
+Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign
+price index. [$\chi$ represents home bias preference, and therefore is a
+natural index for openness to trade]{.mark} The optimal consumer price
+index (CPI) inflation condition, where inflation is defined as
+$\pi_t \equiv p_t-p_{t-1}$, is given by:
 
 $$
 \pi_t=\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot \widehat{mc}_t
 $$
 
-Where $\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}$. Real marginal cost $\widehat{mc}_t$ can be found by log-linearizing the firms' nominal marginal cost, which holds for every firm due to the linearity of the production function:
+Where $\kappa \equiv \frac{(1-\theta)(1-\beta\theta)}{\theta}$. Real
+marginal cost $\widehat{mc}_t$ can be found by log-linearizing the
+firms' nominal marginal cost, which holds for every firm due to the
+linearity of the production function:
 
 $$
 \widehat{mc}_t =(1-\chi)\cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\chi\cdot (\hat{s}_t+\hat{p}^f_t-\hat{p}_t) \\
 \Leftrightarrow \widehat{mc}^*_t =(\hat{w}_t-\hat{p}_t-\hat{a}_t)+\alpha \cdot \hat{q}_t
-$$
-Where $\hat{s}_t+\hat{p}^f_t-\hat{p}_t\equiv \hat{q}_t$ is exactly the formula for the real exchange rate, $\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}$ and $\alpha \equiv \frac{\chi}{1-\chi}$. This allows to derive the final New Keynesian Phillips Curve (NKPC):
+$$ Where $\hat{s}_t+\hat{p}^f_t-\hat{p}_t\equiv \hat{q}_t$ is exactly
+the formula for the real exchange rate,
+$\widehat{mc}^*_t \equiv \frac{\widehat{mc}_t}{1-\chi}$ and
+$\alpha \equiv \frac{\chi}{1-\chi}$. This allows to derive the final New
+Keynesian Phillips Curve (NKPC):
 
 $$
 \pi_t =\beta \cdot \mathbb{E}_t[\pi_{t+1}]+\kappa \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\kappa\alpha \cdot \hat{q}_t\\
-$$
-Which allow us to derive three different possible NKPC:
+$$ Which allow us to derive three different possible NKPC:
 
 $$
 \text{NKPC (1):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{w}_t-\hat{p}_t-\hat{a}_t)+\gamma_3 \cdot \hat{q}_t
-$$
-With parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa$ and $\gamma_3\equiv\kappa \alpha$.
+$$ With parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa$ and
+$\gamma_3\equiv\kappa \alpha$.
 
 $$
 \text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
-$$
-Using the fact that [under imperfect competition, the real unit labor cost is equal to the output gap]{.mark} such that $\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and $\gamma_3\equiv\kappa \alpha$.
+$$ Using the fact that [under imperfect competition, the real unit labor
+cost is equal to the output gap]{.mark} such that
+$\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with
+parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and
+$\gamma_3\equiv\kappa \alpha$.
 
 $$
 \text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
-$$
-Using [Okun's law]{.mark}, which can be expressed as $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv -\frac{\kappa}{\delta}$ and $\gamma_3\equiv\kappa \alpha$.
-
-
-
-
-
-
+$$ Using [Okun's law]{.mark}, which can be expressed as
+$-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with
+parameters $\gamma_1\equiv\beta$,
+$\gamma_2\equiv -\frac{\kappa}{\delta}$ and
+$\gamma_3\equiv\kappa \alpha$.
