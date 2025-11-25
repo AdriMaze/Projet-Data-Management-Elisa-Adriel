@@ -414,7 +414,7 @@ the UK, suggesting shifts in economic dynamics.
 Furthermore, some
 countries, in particular eastern countries, lack pre-1990 data, which renders comparison complicated and pushes to period-wise comparison. For that, it is better to either reduce sample and focus on decade-wise comparison or keep a sample large enough and compare between large enough periods.
 
-## Focus on one country : France ? 
+## Focus on one country : France ?
 
 ::: callout-important
 **NOTE: Pas sûr pour la France ou même pour la concentration sur un pays, car on a principalement des variables de politiques appliquables seulement au niveau de l'Union, style les taux de changes, la politique monétaire et certaines politiques européennes **
