@@ -69,6 +69,53 @@ OECD <- vroom("data/DATA OCDE.csv")
 WDI <- vroom("data/DATA WDI.csv")
 ```
 
+The two dataset are from major institutions : the OECD and the World
+Development indicators :
+
+-   The OECD is an international institution founded in 1961 to advise
+    countries on their public policies with the aim of improving the
+    living conditions of their citizens. The institution works on a wide
+    range of issues, such as education and the fight against global
+    warming. It has been collecting and analysing data for its member
+    countries for 60 years. the OECD is composed of 38 countries based
+    on the following criteria: a democratic system of government and a
+    market economy. It makes available to the public periodic
+    specialised reports, as well as ad hoc reports for certain areas,
+    statistical data, country studies, and working papers. Thus, the
+    OECD seemed to us to be a reliable source for obtaining economic
+    data on the different countries of Europe. (source :
+    <https://www.oecd.org/fr/about.html>)
+
+-   The World Development Indicators constitute the principal collection
+    of development data compiled by the World Bank. The database brings
+    together more than a thousand indicators covering a wide range of
+    development topics such as economic growth, poverty, education,
+    health, environment, and international trade. The WDI data are drawn
+    from officially recognized international sources and are subject to
+    strict verification and harmonisation processes to ensure
+    comparability across countries and over time. The World Bank has
+    been collecting and publishing development statistics for several
+    decades as part of its mission to reduce poverty and support
+    sustainable development. The WDI therefore represent a reliable and
+    widely used source for conducting international economic analyses,
+    particularly because they provide consistent, regularly updated, and
+    publicly accessible data for most countries in the world.
+
+### Basic information on data file
+
+```{r}
+tibble(
+  n_rows = nrow(OECD),
+  n_cols = ncol(OECD)
+)
+tibble(
+  n_rows = nrow(WDI),
+  n_cols = ncol(WDI)
+)
+```
+
+Dataset from OCDE has
+
 ## Necessary data manipulation
 
 All the data in OECD is annual and there are many unnecessary columns.
@@ -228,6 +275,12 @@ and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
 will reduce this dataset and use subsets, which will be specified every
 time.
 
+The two main variables that we are going to study is the inflation rate
+and the unemployment rate. the inflation rate is the variation of the
+general level of price during a given period, here in our dataset a
+year. The unemployment is the rate of working people that can and want a
+job but do not have one.
+
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
@@ -277,27 +330,46 @@ l'histoire de la Phillips curve qu'on a quand même pas mal couvert.
 Après si je me trompe, my bad! :)**
 :::
 
-The study of British data confirmed the existence of an inverse
-relationship between unemployment and the rate of change in nominal
-wages. Popularized as the “Phillips curve,” this relationship quickly
-became fundamental for two reasons. It allowed Keynesian macroeconomics
-to move from a static to a dynamic framework by introducing a [mechanism
-that links output, employment, and price evolution over time]{.mark}. In
-the original Keynesian model, with fixed prices, fluctuations in
-activity were explained by changes in demand, but the model did not
-account for price dynamics. The Phillips curve filled this gap: for a
-given period, demand determines output and employment, which in turn
-determine unemployment. Through the Phillips relationship, unemployment
-then affects wage growth, and if wage changes pass through to prices, it
-drives inflation dynamics from one period to the next.
+In November 1958, the journal Economica published an article by A.W.
+Phillips, a New Zealand economist working at the London School of
+Economics, entitled ‘The relationship between unemployment and the rate
+of growth of nominal wages in the United Kingdom, 1861-1957’. Phillips
+sought to test the idea that unemployment and nominal wage growth move
+in opposite directions. His intuition was that the labour market is like
+any other market: periods of strong demand put upward pressure on
+prices, and vice versa. Thus, when economic activity is strong,
+unemployment is low and employees are in a position of strength to
+demand wage increases. Conversely, when economic activity slows, high
+unemployment encourages wage moderation. The unemployment rate would
+therefore be the main determinant of wage growth. An analysis of UK data
+confirms the existence of an inverse relationship between the
+unemployment rate and the rate of growth in nominal wages.
 
-Later, in 1960, Samuelson and Solow extended the Phillips framework
-using U.S. data from 1900 to 1960. Assuming that wage variations
-translate into prices through production costs, they reformulated the
-original relationship between unemployment and wage inflation into one
-between unemployment and price inflation. This version of the Phillips
-curve suggested a possible [trade-off between inflation and
-unemployment]{.mark}, with profound implications for economic policy
+It enabled Keynesian macroeconomics to move from static to dynamic
+analysis, thereby providing the missing equation in Keynesian theory.
+Indeed, Keynesian analysis prior to the Phillips curve was limited to
+explaining fluctuations in activity through variations in demand, but as
+a fixed-price analysis, it shed no light on price dynamics. After the
+introduction of the Phillips curve, the macroeconomic equilibrium for a
+given period described by the aggregate supply/aggregate demand model of
+synthesis changes over time according to the dynamics of nominal wages:
+at fixed prices, at a given period t, demand determines output and
+employment and therefore also unemployment, which, via the Phillips
+relationship, will influence the evolution of nominal wages, and
+therefore prices (if you accept that wage changes are reflected in
+prices; see below), between period t and period t + 1. Prices at t + 1
+will in turn determine demand at t + 1, and so on.
+
+This relationship, in a later version, had very strong implications for
+economic policy. Indeed, an extension of the Phillips curve was proposed
+in 1960 by Samuelson and Solow. They first found results similar to
+those of Phillips on American data for the period 1900-1960; then, based
+on the principle that any change in wages necessarily affects prices via
+costs, they transformed Phillips' original relationship into a
+relationship between unemployment and inflation (rather than wage
+inflation). The Phillips relationship in the form provided by Samuelson
+and Solow thus provided evidence of a possible trade-off between
+inflation and unemployment.
 
 ## Actual researches on it
 
