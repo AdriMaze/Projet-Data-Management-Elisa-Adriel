@@ -83,8 +83,14 @@ Development indicators :
     specialised reports, as well as ad hoc reports for certain areas,
     statistical data, country studies, and working papers. Thus, the
     OECD seemed to us to be a reliable source for obtaining economic
-    data on the different countries of Europe. (source :
-    <https://www.oecd.org/fr/about.html>)
+    data on the different countries of Europe. We selected OECD Data
+    explorer's 117 Economic outlook. indeed, The OECD Economic Outlook
+    presents the OECD's analysis of the main global economic trends and
+    forecasts for the next two years. It offers a coherent set of
+    projections for output, employment, government spending, prices and
+    current accounts, based on an examination of each member country and
+    the knock-on effect on each of them in the context of international
+    developments. (source : <https://www.oecd.org/fr/about.html>)
 
 -   The World Development Indicators constitute the principal collection
     of development data compiled by the World Bank. The database brings
@@ -101,29 +107,34 @@ Development indicators :
     particularly because they provide consistent, regularly updated, and
     publicly accessible data for most countries in the world.
 
-### Basic information on data file
+## research question
 
-```{r}
-tibble(
-  n_rows = nrow(OECD),
-  n_cols = ncol(OECD)
-)
-tibble(
-  n_rows = nrow(WDI),
-  n_cols = ncol(WDI)
-)
-```
+on veut analyser les changements dans la courbature dans la courbe de
+philipps. avant on remarquait qu'elle était décroissante alors que
+maintenant on remarque que cette relation elle existe presqque plus. on
+veut donc analyser pourquoi elle existe plus : 1/ évolution dans le
+temps et 2/ quels sont les éléments qui l'ont aplati en fonction des
+périodes. donc notre question c'est pourquoi elle s'est horizontalisé en
+fonction des périodes. on va utiliser un modele DiD.
 
-Dataset from OCDE has
+1er partie : focus ajd, covid bcp d'inflation et réaction au chômage.
+constats actuels de la courbe de philips.
 
-## Necessary data manipulation
+2eme : analyse temporelle diviser en 3 périodes (avant 1990, 1990/2008
+puis après 2008)
+
+3eme : focus sur certains chocs particuliers (on sait pas encore
+lesquels)
+
+obj : analyser les covariables principales de l'horizontalisation
+
+### Necessary data manipulation
 
 All the data in OECD is annual and there are many unnecessary columns.
-We keep only the [reference area, measure, time period and
-observationvalue]{.mark} of the measure, respectively named `country`,
-`measure`, `time` and `value`. We will also rename all variables such
-that they will be identifiable from the OECD database, but still
-recognizable.
+We keep only the [reference area, measure, time period and observation
+value]{.mark} of the measure, respectively named `country`, `measure`,
+`time` and `value`. We will also rename all variables such that they
+will be identifiable from the OECD database, but still recognizable.
 
 ```{r, message = FALSE, warning = FALSE}
 # Manipulating OECD data
@@ -237,6 +248,37 @@ WDI <- WDI |>
   ) |>
   drop_na()
 ```
+
+### Basic information on our dataset
+
+```{r}
+WDI |>
+  summarise(
+    "Countries" = n_distinct(country),
+    "Variables" = n_distinct(measure),
+    "Start date" = min(time),
+    "End date" = max(time)
+  ) |>
+  kable()
+```
+
+The WDI dataset has 24 variables for 58 countries and has a time period
+from 1960 to 2024.
+
+```{r}
+OECD |>
+  summarise(
+    "Countries" = n_distinct(country),
+    "Variables" = n_distinct(measure),
+    "Start date" = min(time),
+    "End date" = max(time)
+  ) |>
+  kable()
+
+```
+
+The WDI dataset has 33 variables for 28 countries and has a time period
+from 1960 to 2026.
 
 We can now merge both datasets and get some useful statistics out of
 them:
@@ -390,6 +432,10 @@ See [Appendix A](#appendixA) for full derivation.
 ## Improvements there could be (according to us)
 
 # Data visualization
+
+::: callout.note
+faire plus petite période pr focus a ajd,
+:::
 
 Let us represent as an "entrée" a basic scatter plot for the Phillips
 curve for [28 European countries]{.mark} over the period and we are
