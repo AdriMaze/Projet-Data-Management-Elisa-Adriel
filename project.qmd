@@ -112,26 +112,14 @@ Development indicators :
 
 ## Research question
 
-The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
+The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. 
 
-on veut analyser les changements dans la courbature dans la courbe de
-philipps. avant on remarquait qu'elle était décroissante alors que
-maintenant on remarque que cette relation elle existe presqque plus. on
-veut donc analyser pourquoi elle existe plus : 1/ évolution dans le
-temps et 2/ quels sont les éléments qui l'ont aplati en fonction des
-périodes. donc notre question c'est pourquoi elle s'est horizontalisé en
-fonction des périodes. on va utiliser un modele DiD.
+Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
 
-1er partie : focus ajd, covid bcp d'inflation et réaction au chômage.
-constats actuels de la courbe de philips.
+***What drove the variations in the curvature of the Phillips curve since the 1960s: multi-modal, multi-temporal, cross-country analysis of the impact of underlying regime and policy variables on the relationship between unemployment and inflation***
 
-2eme : analyse temporelle diviser en 3 périodes (avant 1990, 1990/2008
-puis après 2008)
-
-3eme : focus sur certains chocs particuliers (on sait pas encore
-lesquels)
-
-obj : analyser les covariables principales de l'horizontalisation
+For this, we have to conduct multi-modal analysis, *i.e.*, space-time, per- and cross-variables analysis at the same time. The use of the model displayed in [Appendix A](#appendixA) could be appropriate for SVAR analysis, but it has the disadvantages of 1) being hard to grasp for non-economists, especially the self-modified version presented, and 2) being too uselessly heavy in computing terms to draw proper IRFs. Therefore, our final choice sur to use a [self-improved, multi-temporal, cross-country and own- and cross-variable Difference-in-Difference model](#did-model), which will allow us to derive matrices of underlying parameters, allowing us to derive the different impacts of each parameter over time, as well as their magnitude.
+In a first part, we will focus on recalling today's changing as they are the closest to us and draw some constatations on the curve's relationship. Then, we will divide our temporal analysis in 3 parts, namely before 1990, from 1990 to 2008 and afterwards. We will detail how we think these three periods are the most relevant. Finally, we will focus on certain type of shocks and regime changes which particularily impacted the curve.
 
 ### Necessary data manipulation
 
@@ -628,7 +616,7 @@ monétaire et certaines politiques européennes**
 
 # Data analysis
 
-## Multi-period Difference-in-Difference type model
+## Multi-period Difference-in-Difference type model {#did-model}
 
 This model allows us, contrary to a classical Difference-in-Difference
 (DiD) model, to analyze the cross-period changes of the Phillips curve
