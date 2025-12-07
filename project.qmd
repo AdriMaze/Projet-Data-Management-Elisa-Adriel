@@ -65,9 +65,12 @@ Outlook](https://data-explorer.oecd.org/vis?pg=0&snb=1&vw=ov&df%5Bds%5D=dsDissem
 and the [World Development
 Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 
+::: callout-note
+On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#varWDI) and [here](#varOECD), we took a consequent number of measures in order to span the best the influences of underlying variables on the Phillips curve, and will therefore understand that we cannot display every of them here.
+:::
+
 ```{r, message = FALSE, warning = FALSE}
 # Loading data
-
 OECD <- vroom("data/DATA OCDE.csv")
 WDI <- vroom("data/DATA WDI.csv")
 ```
@@ -244,7 +247,7 @@ WDI <- WDI |>
 
 ### Basic information on our dataset
 
-```{r}
+```{r, #varWDI}
 WDI |>
   summarise(
     "Countries" = n_distinct(country),
@@ -258,7 +261,7 @@ WDI |>
 The WDI dataset has 24 variables for 58 countries and has a time period
 from 1960 to 2024.
 
-```{r}
+```{r, #varOECD}
 OECD |>
   summarise(
     "Countries" = n_distinct(country),
@@ -267,7 +270,6 @@ OECD |>
     "End date" = max(time)
   ) |>
   kable()
-
 ```
 
 The WDI dataset has 33 variables for 28 countries and has a time period
