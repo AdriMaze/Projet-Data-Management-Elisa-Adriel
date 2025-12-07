@@ -77,7 +77,7 @@ and the [World Development
 Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 
 ::: callout-note
-On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#basic-info), we took a consequent number of measures in order to span the best the influences of underlying variables on the Phillips curve, and will therefore understand that we cannot display every of them here.
+On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#basic-info), for WDI, we took a consequent number of variables and therefore you will understand that we will not display all of them here. You can look inside of the data for easy replication of the selection.
 :::
 
 The two dataset are from major institutions : the OECD and the World
@@ -316,12 +316,6 @@ and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
 will reduce this dataset and use subsets, which will be specified every
 time.
 
-The two main variables that we are going to study is the inflation rate
-and the unemployment rate. the inflation rate is the variation of the
-general level of price during a given period, here in our dataset a
-year. The unemployment is the rate of working people that can and want a
-job but do not have one.
-
 ## Focus variables: unemployment and inflation
 
 Our two main variables are evidently unemployment and inflation, because they are the variables on which we will focus. 
@@ -372,6 +366,7 @@ data_wide |>
 
 ::: callout-important
 **!! WORK IN PROGRESS !!**
+![](notpass.jpg)
 :::
 
 # Introduction to a bit of history
