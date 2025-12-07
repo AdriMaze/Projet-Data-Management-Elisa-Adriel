@@ -56,6 +56,17 @@ but as one progresses, one realizes that this is less and less the case
 and that multiple other underlying factors actually drive these two
 forces. This is what we try to explore today.
 
+## Research question
+
+The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. 
+
+Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
+
+***What drove the variations in the curvature of the Phillips curve since the 1960s: multi-modal, multi-temporal, cross-country analysis of the impact of underlying regime and policy variables on the relationship between unemployment and inflation***
+
+For this, we have to conduct multi-modal analysis, *i.e.*, space-time, per- and cross-variables analysis at the same time. The use of the model displayed in [Appendix A](#appendixA) could be appropriate for SVAR analysis, but it has the disadvantages of 1) being hard to grasp for non-economists, especially the self-modified version presented, and 2) being too uselessly heavy in computing terms to draw proper IRFs. Therefore, our final choice sur to use a [self-improved, multi-temporal, cross-country and own- and cross-variable Difference-in-Difference model](#did-model), which will allow us to derive matrices of underlying parameters, allowing us to derive the different impacts of each parameter over time, as well as their magnitude.
+In a first part, we will focus on recalling today's changing as they are the closest to us and draw some constatations on the curve's relationship. Then, we will divide our temporal analysis in 3 parts, namely before 1990, from 1990 to 2008 and afterwards. We will detail how we think these three periods are the most relevant. Finally, we will focus on certain type of shocks and regime changes which particularily impacted the curve.
+
 # Data and sources
 
 ## Sources
@@ -68,12 +79,6 @@ Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 ::: callout-note
 On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#varWDI) and [here](#varOECD), we took a consequent number of measures in order to span the best the influences of underlying variables on the Phillips curve, and will therefore understand that we cannot display every of them here.
 :::
-
-```{r, message = FALSE, warning = FALSE}
-# Loading data
-OECD <- vroom("data/DATA OCDE.csv")
-WDI <- vroom("data/DATA WDI.csv")
-```
 
 The two dataset are from major institutions : the OECD and the World
 Development indicators :
@@ -113,16 +118,15 @@ Development indicators :
     particularly because they provide consistent, regularly updated, and
     publicly accessible data for most countries in the world.
 
-## Research question
+## Data
 
-The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. 
+### Data loading
 
-Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
-
-***What drove the variations in the curvature of the Phillips curve since the 1960s: multi-modal, multi-temporal, cross-country analysis of the impact of underlying regime and policy variables on the relationship between unemployment and inflation***
-
-For this, we have to conduct multi-modal analysis, *i.e.*, space-time, per- and cross-variables analysis at the same time. The use of the model displayed in [Appendix A](#appendixA) could be appropriate for SVAR analysis, but it has the disadvantages of 1) being hard to grasp for non-economists, especially the self-modified version presented, and 2) being too uselessly heavy in computing terms to draw proper IRFs. Therefore, our final choice sur to use a [self-improved, multi-temporal, cross-country and own- and cross-variable Difference-in-Difference model](#did-model), which will allow us to derive matrices of underlying parameters, allowing us to derive the different impacts of each parameter over time, as well as their magnitude.
-In a first part, we will focus on recalling today's changing as they are the closest to us and draw some constatations on the curve's relationship. Then, we will divide our temporal analysis in 3 parts, namely before 1990, from 1990 to 2008 and afterwards. We will detail how we think these three periods are the most relevant. Finally, we will focus on certain type of shocks and regime changes which particularily impacted the curve.
+```{r, message = FALSE, warning = FALSE}
+# Loading data
+OECD <- vroom("data/DATA OCDE.csv")
+WDI <- vroom("data/DATA WDI.csv")
+```
 
 ### Necessary data manipulation
 
@@ -318,6 +322,23 @@ general level of price during a given period, here in our dataset a
 year. The unemployment is the rate of working people that can and want a
 job but do not have one.
 
+## Focus variables: unemployment and inflation
+
+Our two main variables are evidently unemployment and inflation, because they are the variables on which we will focus. 
+
+::: callout-tip
+## Definitions
+The [Consumer Price Index (CPI)]{.mark} is a statistical index that tracks the average change over time in prices paid by households for a fixed representative “basket” of goods and services.
+The [(CPI) inflation rate]{.mark} is the percentage change in CPI over a period (month-to-month, year-to-year), given by:
+$$
+\pi_t= \frac{CPI_t-CPI_{t-1}}{CPI_{t-1}}\times 100\%
+$$
+According to OECD definition, an [unemployed individual]{.mark} is a working age individual that is not employed, is available to work and has been actively looking for employment during a reference period. The [unemployment rate]{.mark} is therefore defined as the percentage share of unemployed individuals in total labor force, given by:
+$$
+u_t=\frac{U_t}{L_t}\times 100\%
+$$
+Where $U_t$ is the total number of unemployed individuals and $L_t$ the total number of individuals in the labor force.
+:::
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
