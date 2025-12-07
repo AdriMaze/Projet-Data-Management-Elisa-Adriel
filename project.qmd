@@ -47,7 +47,7 @@ in this dataset.
 
 The dynamics in the labor market are the most complicated out of all
 markets, because it mixes the humane reasoning and the economic one. The
-Phillips curve has always been a reference tool because of the
+[Phillips curve has always been a reference tool]{.mark} because of the
 simplicity of the relationship between prices and unemployment it
 created. This relationship could not only provide an analytically point
 of view about the conjuncture, but also a policy tool. In every
@@ -56,16 +56,16 @@ but as one progresses, one realizes that this is less and less the case
 and that multiple other underlying factors actually drive these two
 forces. This is what we try to explore today.
 
-## Research question
+# Research question
 
-The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. 
+The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was [first observed a negative relationship between unemployment and inflation rate]{.mark}, but as time passes, and accross countries as well, this relationship is [less and less true]{.mark}. Our question concerns the fundamental and exogenous principles behind the [horizontalisation]{.mark} of the Phillips curve. 
 
 Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
 
-***What drove the variations in the curvature of the Phillips curve since the 1960s: multi-modal, multi-temporal, cross-country analysis of the impact of underlying regime and policy variables on the relationship between unemployment and inflation***
+> ***What drove the variations in the curvature of the Phillips curve since the 1960s? A multi-modal, multi-temporal, cross-country analysis of the impact of underlying regime and policy variables on the relationship between unemployment and inflation***
 
-For this, we have to conduct multi-modal analysis, *i.e.*, space-time, per- and cross-variables analysis at the same time. The use of the model displayed in [Appendix A](#appendixA) could be appropriate for SVAR analysis, but it has the disadvantages of 1) being hard to grasp for non-economists, especially the self-modified version presented, and 2) being too uselessly heavy in computing terms to draw proper IRFs. Therefore, our final choice sur to use a [self-improved, multi-temporal, cross-country and own- and cross-variable Difference-in-Difference model](#did-model), which will allow us to derive matrices of underlying parameters, allowing us to derive the different impacts of each parameter over time, as well as their magnitude.
-In a first part, we will focus on recalling today's changing as they are the closest to us and draw some constatations on the curve's relationship. Then, we will divide our temporal analysis in 3 parts, namely before 1990, from 1990 to 2008 and afterwards. We will detail how we think these three periods are the most relevant. Finally, we will focus on certain type of shocks and regime changes which particularily impacted the curve.
+For this, we have to conduct [multi-modal analysis, *i.e.*, space-time, per- and cross-variables analysis]{.mark} at the same time. The use of the model displayed in [Appendix A](#appendixA) could be appropriate for SVAR analysis, but it has the disadvantages of 1) being hard to grasp for non-economists, especially the self-modified version presented, and 2) being too uselessly heavy in computing terms to draw proper IRFs. Therefore, our final choice sur to use a [self-improved, multi-temporal, cross-country and own- and cross-variable Difference-in-Difference model](#did-model), which will allow us to derive [matrices of underlying parameters]{.mark}, allowing us to derive the different impacts of each parameter over time, as well as their magnitude.  
+In a first part, we will focus on recalling today's changing as they are the closest to us and draw some constatations on the curve's relationship. Then, we will divide our temporal analysis in 3 parts, namely before 1990, from 1990 to 2008 and afterwards. We will detail how we think these three periods are the most relevant. Finally, we will focus on certain type of shocks and regime changes which particularly impacted the curve.
 
 # Data and sources
 
@@ -77,7 +77,7 @@ and the [World Development
 Indicator](https://databank.worldbank.org/source/world-development-indicators#).
 
 ::: callout-note
-On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#varWDI) and [here](#varOECD), we took a consequent number of measures in order to span the best the influences of underlying variables on the Phillips curve, and will therefore understand that we cannot display every of them here.
+On every data source, we took the maximal range of time available, even if all data was `NA` and for all European countries. Please note that European countries does not restrict to solely the European Union, Euro Area or Euro Zone. It, however, does not include neither Turkey, nor Russia. As you can see [here](#basic-info), we took a consequent number of measures in order to span the best the influences of underlying variables on the Phillips curve, and will therefore understand that we cannot display every of them here.
 :::
 
 The two dataset are from major institutions : the OECD and the World
@@ -87,7 +87,7 @@ Development indicators :
     countries on their public policies with the aim of improving the
     living conditions of their citizens. The institution works on a wide
     range of issues, such as education and the fight against global
-    warming. It has been collecting and analysing data for its member
+    warming. It has been collecting and analyzing data for its member
     countries for 60 years. the OECD is composed of 38 countries based
     on the following criteria: a democratic system of government and a
     market economy. It makes available to the public periodic
@@ -249,9 +249,9 @@ WDI <- WDI |>
   drop_na()
 ```
 
-### Basic information on our dataset
+### Basic information on our dataset {#basic-info}
 
-```{r, #varWDI}
+```{r}
 WDI |>
   summarise(
     "Countries" = n_distinct(country),
@@ -265,7 +265,7 @@ WDI |>
 The WDI dataset has 24 variables for 58 countries and has a time period
 from 1960 to 2024.
 
-```{r, #varOECD}
+```{r}
 OECD |>
   summarise(
     "Countries" = n_distinct(country),
@@ -328,17 +328,52 @@ Our two main variables are evidently unemployment and inflation, because they ar
 
 ::: callout-tip
 ## Definitions
-The [Consumer Price Index (CPI)]{.mark} is a statistical index that tracks the average change over time in prices paid by households for a fixed representative “basket” of goods and services.
+The [Consumer Price Index (CPI)]{.mark} is a statistical index that tracks the average change over time in prices paid by households for a fixed representative “basket” of goods and services.  
 The [(CPI) inflation rate]{.mark} is the percentage change in CPI over a period (month-to-month, year-to-year), given by:
 $$
 \pi_t= \frac{CPI_t-CPI_{t-1}}{CPI_{t-1}}\times 100\%
 $$
-According to OECD definition, an [unemployed individual]{.mark} is a working age individual that is not employed, is available to work and has been actively looking for employment during a reference period. The [unemployment rate]{.mark} is therefore defined as the percentage share of unemployed individuals in total labor force, given by:
+According to OECD definition, an [unemployed individual]{.mark} is a working age individual that is not employed, is available to work and has been actively looking for employment during a reference period.  
+The [unemployment rate]{.mark} is therefore defined as the percentage share of unemployed individuals in total labor force, given by:
 $$
 u_t=\frac{U_t}{L_t}\times 100\%
 $$
 Where $U_t$ is the total number of unemployed individuals and $L_t$ the total number of individuals in the labor force.
 :::
+
+WDI data will be used because of more completeness for the unemployment rate and inflation rate variables. Moreover, we exclude
+inflation values above 40% as in [Yamada & Bell
+(2012)](https://ejce.liuc.it/18242979201202/182429792012090203.pdf). Let us focus on France:
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(cpi.wdi) |>
+  ggplot(aes(x = time, y = cpi.wdi)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Consumer Price Index (France)",
+    x = "Year",
+    y = "CPI (WDI)"
+  ) +
+  theme_minimal()
+data_wide |>
+  filter(country == "France") |>
+  drop_na(unemp.tot.wdi) |>
+  ggplot(aes(x = time, y = unemp.tot.wdi)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Total Unemployment Rate (France)",
+    x = "Year",
+    y = "Unemployment (WDI, % of labor force)"
+  ) +
+  theme_minimal()
+```
+
+::: callout-important
+**!! WORK IN PROGRESS !!**
+:::
+
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
@@ -380,22 +415,14 @@ unemployment decreases.
 
 ## Historical development
 
-::: callout-important
-**NOTE: Une fois de plus, je ne pense pas me tromper ... mais ça pue
-ChatGPT dans beaucoup d'endroits du texte, d'autant que ce n'est pas
-sourcé etc... Je pense à éviter ou alors à lire des articles brefs sur
-l'histoire de la Phillips curve qu'on a quand même pas mal couvert.
-Après si je me trompe, my bad! :)**
-:::
-
-In November 1958, the journal Economica published an article by A.W.
+In November 1958, the journal [Economica]{.mark} published an article by A.W.
 Phillips, a New Zealand economist working at the London School of
-Economics, entitled ‘The relationship between unemployment and the rate
-of growth of nominal wages in the United Kingdom, 1861-1957’. Phillips
-sought to test the idea that unemployment and nominal wage growth move
-in opposite directions. His intuition was that the labour market is like
+Economics, entitled [‘The relationship between unemployment and the rate
+of growth of nominal wages in the United Kingdom, 1861-1957’]{.mark}. Phillips
+sought to test the idea that [unemployment and nominal wage growth move
+in opposite directions]{.mark}. His intuition was that the labor market is like
 any other market: periods of strong demand put upward pressure on
-prices, and vice versa. Thus, when economic activity is strong,
+prices, and vice-versa. Thus, when economic activity is strong,
 unemployment is low and employees are in a position of strength to
 demand wage increases. Conversely, when economic activity slows, high
 unemployment encourages wage moderation. The unemployment rate would
@@ -403,23 +430,22 @@ therefore be the main determinant of wage growth. An analysis of UK data
 confirms the existence of an inverse relationship between the
 unemployment rate and the rate of growth in nominal wages.
 
-It enabled Keynesian macroeconomics to move from static to dynamic
-analysis, thereby providing the missing equation in Keynesian theory.
+It enabled [Keynesian macroeconomics to move from static to dynamic
+analysis]{.mark}, thereby providing the missing equation in Keynesian theory.
 Indeed, Keynesian analysis prior to the Phillips curve was limited to
 explaining fluctuations in activity through variations in demand, but as
 a fixed-price analysis, it shed no light on price dynamics. After the
 introduction of the Phillips curve, the macroeconomic equilibrium for a
-given period described by the aggregate supply/aggregate demand model of
+given period described by the aggregate supply-aggregate demand (AD-AS) model of
 synthesis changes over time according to the dynamics of nominal wages:
-at fixed prices, at a given period t, demand determines output and
+at fixed prices, at a given period $t$, demand determines output and
 employment and therefore also unemployment, which, via the Phillips
 relationship, will influence the evolution of nominal wages, and
-therefore prices (if you accept that wage changes are reflected in
-prices; see below), between period t and period t + 1. Prices at t + 1
-will in turn determine demand at t + 1, and so on.
+therefore prices, between period $t$ and period $t + 1$. Prices at $t + 1$
+will in turn determine demand at $t + 1$, and so on.
 
-This relationship, in a later version, had very strong implications for
-economic policy. Indeed, an extension of the Phillips curve was proposed
+This relationship, in a later version, had very [strong implications for
+economic policy]{.mark}. Indeed, an extension of the Phillips curve was proposed
 in 1960 by Samuelson and Solow. They first found results similar to
 those of Phillips on American data for the period 1900-1960; then, based
 on the principle that any change in wages necessarily affects prices via
@@ -449,15 +475,13 @@ See [Appendix A](#appendixA) for full derivation.
 
 # Data visualization
 
-::: callout.note
-faire plus petite période pr focus a ajd,
+::: callout-important
+**Shorter periods to focus on today?**
 :::
 
 Let us represent as an "entrée" a basic scatter plot for the Phillips
 curve for [28 European countries]{.mark} over the period and we are
-using WDI data because it is more complete. Moreover, we exclude
-inflation values above 40% as in [Yamada & Bell
-(2012)](https://ejce.liuc.it/18242979201202/182429792012090203.pdf).
+using WDI data because it is more complete. We still exclude inflation rates above 40%.
 
 ```{r, message = FALSE, warning = FALSE}
 # First page
@@ -685,7 +709,8 @@ $$
 \psi_{2kj} (u_t^{2} \times Z_{j,t} \times D_{k,t})
 }_{\text{Period-specific curvature effects of underlying variables}} \\ &+ \varepsilon_t.
 \end{aligned}
-$$ Where $\beta_1$ and $\beta_2$ specify the baseline of the model,
+$$ 
+Where $\beta_1$ and $\beta_2$ specify the baseline of the model,
 indicating the slope sign and the curvature, or sensitivity, of the
 slope, respectively, $\theta_{1k}$ and $\theta_{2k}$ are period
 effects-specific parameters and indicate how the slope and the curvature
