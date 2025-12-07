@@ -75,7 +75,7 @@ WDI <- vroom("data/DATA WDI.csv")
 The two dataset are from major institutions : the OECD and the World
 Development indicators :
 
--   The OECD is an international institution founded in 1961 to advise
+-   The [OECD](https://www.oecd.org/fr/about.html) is an international institution founded in 1961 to advise
     countries on their public policies with the aim of improving the
     living conditions of their citizens. The institution works on a wide
     range of issues, such as education and the fight against global
@@ -93,7 +93,7 @@ Development indicators :
     projections for output, employment, government spending, prices and
     current accounts, based on an examination of each member country and
     the knock-on effect on each of them in the context of international
-    developments. (source : <https://www.oecd.org/fr/about.html>)
+    developments.
 
 -   The World Development Indicators constitute the principal collection
     of development data compiled by the World Bank. The database brings
@@ -110,7 +110,9 @@ Development indicators :
     particularly because they provide consistent, regularly updated, and
     publicly accessible data for most countries in the world.
 
-## research question
+## Research question
+
+The Phillips curve is a fundamental concept in economics, and the basis of most neo-models, whether it be from classic or more keynesian schools. It was first observed a negative relationship between unemployment and inflation rate, but as time passes, and accross countries as well, this relationship is less and less true. Our question concerns the fundamental and exogenous principles behind the horizontalisation of the Phillips curve. Indeed, there could be multiple reasons as to why we do not observe this relationship anymore: the structures of the economies changed, the globalization had an impact on the fundamental relationship, the policy regimes' changes contributed to flatten the relationship...
 
 on veut analyser les changements dans la courbature dans la courbe de
 philipps. avant on remarquait qu'elle était décroissante alors que
