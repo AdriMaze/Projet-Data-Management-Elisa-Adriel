@@ -62,44 +62,36 @@ forces. This is what we try to explore today.
 
 # Research question
 
+Building on this motivation, this project seeks to formalize the
+relationship between inflation and unemployment and to examine how its
+empirical properties have evolved across countries and over time.
+
 The Phillips curve is a fundamental concept in economics, and the basis
 of most neo-models, whether it be from classic or more keynesian
 schools. It was [first observed a negative relationship between
 unemployment and inflation rate]{.mark}, but as time passes, and accross
-countries as well, this relationship is [less and less true]{.mark}. Our
-question concerns the fundamental and exogenous principles behind the
-[horizontalisation]{.mark} of the Phillips curve.
+countries as well, this relationship is [less and less true]{.mark}. In
+many advanced economies, periods of low unemployment have not been
+accompanied by significant inflationary pressures, while inflation has
+sometimes remained subdued despite tight labor market conditions.
 
-Indeed, there could be multiple reasons as to why we do not observe this
-relationship anymore: the structures of the economies changed, the
-globalization had an impact on the fundamental relationship, the policy
-regimes' changes contributed to flatten the relationship...
+However, empirical evidence accumulated over time suggests that this
+relationship varies significantly across countries and historical
+periods. Rather than reflecting a simple and stable trade-off, the
+inflation–unemployment relationship appears to be influenced by a
+broader set of economic, institutional, and policy-related factors. This
+observation motivates an analysis that goes beyond the bivariate
+relationship between inflation and unemployment, and instead considers
+how changes in the surrounding economic environment may affect the
+strength of this relationship.
 
 > ***What drove the variations in the curvature of the Phillips curve
 > since the 1960s? A multi-modal, multi-temporal, cross-country analysis
 > of the impact of underlying regime and policy variables on the
-> relationship between unemployment and inflation***
-
-(For this, we have to conduct [multi-modal analysis, *i.e.*, space-time,
-per- and cross-variables analysis]{.mark} at the same time. The use of
-the model displayed in [Appendix A](#appendixA) could be appropriate for
-SVAR analysis, but it has the disadvantages of 1) being hard to grasp
-for non-economists, especially the self-modified version presented, and
-2) being too uselessly heavy in computing terms to draw proper IRFs.
-Therefore, our final choice sur to use a [self-improved, multi-temporal,
-cross-country and own- and cross-variable Difference-in-Difference
-model](#did-model), which will allow us to derive [matrices of
-underlying parameters]{.mark}, allowing us to derive the different
-impacts of each parameter over time, as well as their magnitude.\
-In a first part, we will focus on recalling today's changing as they are
-the closest to us and draw some constatations on the curve's
-relationship. Then, we will divide our temporal analysis in 3 parts,
-namely before 1990, from 1990 to 2008 and afterwards. We will detail how
-we think these three periods are the most relevant. Finally, we will
-focus on certain type of shocks and regime changes which particularly
-impacted the curve.)
-
-# Data and sources
+> relationship between unemployment and inflation //*** How has the
+> slope of the Phillips curve between inflation and unemployment evolved
+> over time across European countries, and which structural or
+> policy-related factors are associated with these changes?
 
 ## Sources
 
@@ -355,7 +347,7 @@ and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
 will reduce this dataset and use subsets, which will be specified every
 time.
 
-## Focus variables: unemployment and inflation
+## Focus variables: unemployment, inflation, and wages
 
 Our two main variables are evidently unemployment and inflation, because
 they are the variables on which we will focus.
@@ -377,6 +369,15 @@ share of unemployed individuals in total labor force, given by: $$
 u_t=\frac{U_t}{L_t}\times 100\%
 $$ Where $U_t$ is the total number of unemployed individuals and $L_t$
 the total number of individuals in the labor force.
+
+Still according to OECD definition, average annual wages correspond to
+the annual rates paid per employee in full-time equivalent units in the
+total economy. The wage growth rate is the percentage change in average
+annual wages over a period:
+
+$$w_t= \frac{W_t-W_{t-1}}{W_{t-1}}\times 100\%$$ Wages are observed
+because the original Phillips curve described the inverse relationship
+between unemployment and wage growth.
 :::
 
 WDI data will be used because of more completeness for the unemployment
@@ -408,11 +409,18 @@ data_wide |>
     y = "Unemployment (WDI, % of labor force)"
   ) +
   theme_minimal()
+data_wide |>
+  filter(country == "France") |>
+  drop_na(wage.rate.oecd) |>
+  ggplot(aes(x = time, y = wage.rate.oecd/1000)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Average Annual Wages in France (OECD)",
+    x = "Year",
+    y = "Average Annual Wage (thousands of EUR)"
+  ) +
+  theme_minimal()
 ```
-
-::: callout-important
-**!! WORK IN PROGRESS !!** ![](notpass.jpg)
-:::
 
 # Introduction to a bit of history
 
