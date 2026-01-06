@@ -422,6 +422,71 @@ data_wide |>
   theme_minimal()
 ```
 
+## Exogenous variables of interest
+
+### ECB rate
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(ecb.IR.oecd) |>
+  ggplot(aes(x = time, y = ecb.IR.oecd)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Short term directory rate (ECB)",
+    x = "Year",
+    y = "ECB rate (%, OECD)"
+  ) +
+  theme_minimal()
+```
+### Government bonds' rate
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(lt.IR.gov.bonds.oecd) |>
+  ggplot(aes(x = time, y = lt.IR.gov.bonds.oecd)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "10 years government bonds",
+    x = "Year",
+    y = "Bond rate (%, OECD)"
+  ) +
+  theme_minimal()
+```
+
+### Exchange rate
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(ex.rate.usd.oecd) |>
+  ggplot(aes(x = time, y = ex.rate.usd.oecd)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Exchange rate EUR-USD",
+    x = "Year",
+    y = "Exchange rate (EUR/USD, OECD)"
+  ) +
+  theme_minimal()
+```
+
+### Labour productivity
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(labor.prod.oecd) |>
+  ggplot(aes(x = time, y = labor.prod.oecd)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Labor productivity",
+    x = "Year",
+    y = "Labour productivity (OECD)"
+  ) +
+  theme_minimal()
+```
+
 # Introduction to a bit of history
 
 ## What is the Phillips curve?
