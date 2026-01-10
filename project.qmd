@@ -1032,6 +1032,36 @@ ranking_table |>
 
 ```
 
+```{r}
+ranking_table |>
+  select(period, variable, pct_slope) |>
+  ggplot(aes(x = period, y = pct_slope, fill = variable)) +
+  geom_col(width = 0.7) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  labs(
+    title = "What shapes the Phillips curve slope? (percentage contributions)",
+    x = "",
+    y = "% contribution"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 0, hjust = 0.5)
+  )
+ranking_table |>
+  select(period, variable, pct_curvature) |>
+  ggplot(aes(x = period, y = pct_curvature, fill = variable)) +
+  geom_col(width = 0.7) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  labs(
+    title = "What shapes the Phillips curve curvature? (percentage contributions)",
+    x = "",
+    y = "% contribution"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
 # Conclusion
 
 # Appendix
@@ -1110,3 +1140,46 @@ $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with
 parameters $\gamma_1\equiv\beta$,
 $\gamma_2\equiv -\frac{\kappa}{\delta}$ and
 $\gamma_3\equiv\kappa \alpha$.
+
+## Appendix B: Per country
+
+```{r}
+final_table |>
+  group_by(country, period) |>
+  mutate(
+    pct_slope = 100 * abs(slope_contribution) /
+      sum(abs(slope_contribution), na.rm = TRUE),
+    pct_curvature = 100 * abs(curvature_contribution) /
+      sum(abs(curvature_contribution), na.rm = TRUE)
+  ) |>
+  ungroup() |>
+  select(
+    country,
+    period,
+    variable,
+    pct_slope,
+    pct_curvature
+  ) |>
+  mutate(
+    pct_slope     = round(pct_slope, 1),
+    pct_curvature = round(pct_curvature, 1)
+  ) |>
+  arrange(country, period, desc(pct_slope)) |>
+  knitr::kable(
+    format = "html",
+    caption = "Country- and period-specific percentage contributions to the Phillips curve",
+    col.names = c(
+      "Country",
+      "Period",
+      "Variable",
+      "% contribution to slope",
+      "% contribution to curvature"
+    )
+  ) |>
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    full_width = FALSE,
+    position = "center"
+  )
+```
+
