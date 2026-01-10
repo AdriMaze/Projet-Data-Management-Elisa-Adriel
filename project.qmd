@@ -37,7 +37,8 @@ library(lmtest)
 library(sandwich)
 library(ggplot2)
 library(ggforce)
-
+library(purrr)
+library(broom)
 ```
 
 ::: callout-tip
@@ -934,7 +935,31 @@ did_results <- coeftest(fit, vcov = vcov_country)
 ```
 
 ```{r}
+coefs <- coef(fit)
+periods <- levels(df$period)
 
+marginal_effects <- expand_grid(
+  variable = Z_vars,
+  period   = periods
+) |>
+  mutate(
+    slope_effect = map2_dbl(variable, period, \(v, p) {
+      phi <- coefs[paste0("u_gap:", v)]
+      psi <- coefs[paste0("u_gap:", v, ":period", p)]
+      phi + ifelse(is.na(psi), 0, psi)
+    }),
+    curvature_effect = map2_dbl(variable, period, \(v, p) {
+      phi <- coefs[paste0("u2:", v)]
+      psi <- coefs[paste0("u2:", v, ":period", p)]
+      2 * (phi + ifelse(is.na(psi), 0, psi))
+    })
+  )
+
+
+
+```
+
+```{r}
 
 ```
 
