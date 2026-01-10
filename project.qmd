@@ -1,16 +1,22 @@
 ---
 title: "On the curvature of the Phillips curve"
 author: "Elisa Colson & Adriel Mazère"
+
 format: 
-  html:
+  wordcount-html:
     toc: true
     toc-depth: 3
     toc-location: left
     code-fold: true
-  pdf:
+    count-code-blocks: false
+
+  wordcount-pdf:
     code: false
-    execute:
-    echo: false
+    count-code-blocks: false
+
+execute:
+  echo: false
+
 editor: 
   markdown: 
     wrap: 72
@@ -439,6 +445,7 @@ data_wide |>
   ) +
   theme_minimal()
 ```
+
 ### Government bonds' rate
 
 ```{r}
