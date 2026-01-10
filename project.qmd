@@ -872,7 +872,8 @@ Z_vars <- c(
   "ecb.IR.oecd",
   "lt.IR.gov.bonds.oecd",
   "ex.rate.usd.oecd",
-  "labor.prod.oecd"
+  "labor.prod.oecd",
+  "pot.y.vol.oecd"
 )
 
 panel_df <- data_wide |>
