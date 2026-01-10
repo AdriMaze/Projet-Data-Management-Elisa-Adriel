@@ -960,6 +960,39 @@ marginal_effects <- expand_grid(
 ```
 
 ```{r}
+Z_means <- df |>
+  group_by(country, period) |>
+  summarise(
+    across(all_of(Z_vars), \(x) mean(x, na.rm = TRUE)),
+    .groups = "drop"
+  )
+effects_country_period <- Z_means |>
+  pivot_longer(
+    cols = all_of(Z_vars),
+    names_to = "variable",
+    values_to = "Zbar"
+  ) |>
+  left_join(marginal_effects, by = c("variable", "period")) |>
+  mutate(
+    slope_contribution     = slope_effect * Zbar,
+    curvature_contribution = curvature_effect * Zbar
+  )
+```
+
+```{r}
+final_table <- effects_country_period |>
+  select(
+    country,
+    period,
+    variable,
+    slope_contribution,
+    curvature_contribution
+  ) |>
+  arrange(period, country, desc(abs(slope_contribution)))
+
+```
+
+```{r}
 
 ```
 
