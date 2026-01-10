@@ -33,8 +33,11 @@ library(vroom)
 library(dplyr)
 library(knitr)
 library(tidyr)
+library(lmtest)
+library(sandwich)
 library(ggplot2)
 library(ggforce)
+
 ```
 
 ::: callout-tip
@@ -858,6 +861,77 @@ economics are [niche, but not inexistant]{.mark}, seeing [Baker et al.
 [(2020)](https://psantanna.com/files/Callaway_SantAnna_2020.pdf), or
 [Chaisemartin et al. (2022)](https://arxiv.org/pdf/2201.06898).
 :::
+
+## Model implementation
+
+```{r}
+Z_vars <- c(
+  "ecb.IR.oecd",
+  "lt.IR.gov.bonds.oecd",
+  "ex.rate.usd.oecd",
+  "labor.prod.oecd"
+)
+
+panel_df <- data_wide |>
+  arrange(country, time) |>
+  group_by(country) |>
+  mutate(
+    # Inflation: only compute log-diff when CPI > 0
+    pi = 100 * (cpi.wdi - lag(cpi.wdi))/lag(cpi.wdi),
+
+    # Unemployment gap (within-country)
+    u_gap = unemp.tot.wdi - mean(unemp.tot.wdi, na.rm = TRUE),
+
+    # Periods
+    period = case_when(
+      time < 1999 ~ "pre_euro",
+      time < 2008 ~ "euro_pre_gfc",
+      time < 2020 ~ "post_gfc",
+      TRUE        ~ "post_covid"
+    )
+  ) |>
+  ungroup() |>
+  select(country, time, pi, u_gap, period, all_of(Z_vars)) |>
+  drop_na()
+
+
+```
+
+```{r}
+df <- panel_df |>
+  mutate(
+    u2 = u_gap^2,
+    period = factor(period),
+    country = factor(country)
+  )
+
+Z_block <- paste(Z_vars, collapse = " + ")
+
+formula_did <- as.formula(paste0(
+  "pi ~ u_gap + u2",                  # β1, β2
+  " + period",                        # Σ δ_k D_k,t
+  " + country",                      # country FE
+  " + ", Z_block,                    # Σ γ_j Z_j,t
+  " + u_gap:period + u2:period",     # θ terms
+  " + u_gap:(",  Z_block, ")",
+  " + u2:(",     Z_block, ")",       # φ terms
+  " + u_gap:(",  Z_block, "):period",
+  " + u2:(",     Z_block, "):period" # ψ terms
+))
+
+fit <- lm(formula_did, data = df)
+```
+
+```{r}
+vcov_country <- vcovCL(
+  fit,
+  cluster = ~ country,
+  type = "HC1"
+)
+
+did_results <- coeftest(fit, vcov = vcov_country)
+
+```
 
 # Conclusion
 
