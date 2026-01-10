@@ -40,6 +40,7 @@ library(ggforce)
 library(purrr)
 library(broom)
 library(here)
+library(kableExtra)
 ```
 
 ::: callout-tip
@@ -895,8 +896,6 @@ panel_df <- data_wide |>
   ungroup() |>
   select(country, time, pi, u_gap, period, all_of(Z_vars)) |>
   drop_na()
-
-
 ```
 
 ```{r}
@@ -932,7 +931,6 @@ vcov_country <- vcovCL(
 )
 
 did_results <- coeftest(fit, vcov = vcov_country)
-
 ```
 
 ```{r}
@@ -955,9 +953,6 @@ marginal_effects <- expand_grid(
       2 * (phi + ifelse(is.na(psi), 0, psi))
     })
   )
-
-
-
 ```
 
 ```{r}
@@ -990,33 +985,50 @@ final_table <- effects_country_period |>
     curvature_contribution
   ) |>
   arrange(period, country, desc(abs(slope_contribution)))
+ranking_table <- final_table |>
+  group_by(period, variable) |>
+  summarise(
+    avg_abs_slope     = mean(abs(slope_contribution), na.rm = TRUE),
+    avg_abs_curvature = mean(abs(curvature_contribution), na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(period) |>
+  mutate(
+    pct_slope     = 100 * avg_abs_slope / sum(avg_abs_slope),
+    pct_curvature = 100 * avg_abs_curvature / sum(avg_abs_curvature)
+  ) |>
+  ungroup() |>
+  arrange(period, desc(pct_slope))
 
 ```
 
 ```{r}
-library(knitr)
-library(kableExtra)
-
-final_table |>
+ranking_table |>
+  select(
+    period,
+    variable,
+    pct_slope,
+    pct_curvature
+  ) |>
   mutate(
-    slope_contribution     = round(slope_contribution, 4),
-    curvature_contribution = round(curvature_contribution, 4)
+    pct_slope     = round(pct_slope, 1),
+    pct_curvature = round(pct_curvature, 1)
   ) |>
-  arrange(period, country, desc(abs(slope_contribution))) |>
-  kable(
-    format = "latex",        # use "html" if knitting to HTML
-    booktabs = TRUE,
-    longtable_clean_cut = FALSE,
-    caption = "Country- and Period-Specific Contributions of Structural Variables to the Phillips Curve"
+  knitr::kable(
+    format = "html",
+    caption = "Percentage contribution of structural variables to the Phillips curve, by period",
+    col.names = c(
+      "Period",
+      "Variable",
+      "% contribution to slope",
+      "% contribution to curvature"
+    )
   ) |>
-  kable_styling(
-    latex_options = c("hold_position", "repeat_header"),
-    font_size = 9
-  ) |>
-  column_spec(1, bold = TRUE) |>   # country
-  column_spec(2, italic = TRUE) |> # period
-  collapse_rows(columns = 1:2, valign = "top")
-
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE,
+    position = "center"
+  )
 
 ```
 
