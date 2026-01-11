@@ -436,7 +436,34 @@ data_wide |>
 
 ## Exogenous variables of interest
 
+The exogenous variables are selected to account for factors that
+influence inflation dynamics independently of labor market tightness,
+and that may therefore affect the slope and stability of the Phillips
+curve. Monetary policy variables, namely the ECB short-term policy rate
+and long-term government bond yields, are included to capture the impact
+of financial conditions and inflation expectations on price-setting
+behavior. By affecting aggregate demand and firms’ financing costs,
+these variables can modify the sensitivity of inflation to unemployment.
+
+The exchange rate is introduced to control for external inflationary
+pressures arising from import prices and international competitiveness,
+which are particularly relevant for open economies. Supply-side factors
+are captured through labour productivity and potential output, as these
+variables directly influence unit labor costs and production
+constraints. Higher productivity growth allows wage increases to be
+absorbed without generating inflation, while deviations of output from
+its potential level reflect capacity constraints that can amplify or
+dampen inflationary pressures. Including these exogenous variables
+therefore allows for a more accurate identification of the relationship
+between unemployment and inflation underlying the Phillips curve.
+
 ### ECB rate
+
+The short-term policy interest rate corresponds to the main refinancing
+operations rate set by the European Central Bank (ECB). It represents
+the cost at which banks can obtain short-term liquidity from the central
+bank and constitutes the primary monetary policy instrument used to
+influence aggregate demand and inflation.
 
 ```{r}
 data_wide |>
@@ -454,6 +481,11 @@ data_wide |>
 
 ### Government bonds' rate
 
+The government bond interest rate refers to the yield on long-term
+sovereign bonds, typically measured using 10-year government bonds. It
+reflects long-term financing conditions as well as expectations about
+future inflation and economic activity.
+
 ```{r}
 data_wide |>
   filter(country == "France") |>
@@ -469,6 +501,18 @@ data_wide |>
 ```
 
 ### Exchange rate
+
+The exchange rate measures the price of the domestic currency in terms
+of a foreign currency, here defined as the bilateral nominal exchange
+rate vis-à-vis the US dollar. It is denoted by:
+
+$$
+e_t
+$$
+
+An increase in $$e_t$$ corresponds to a depreciation of the domestic
+currency. Exchange rate movements affect inflation through import prices
+and external competitiveness.
 
 ```{r}
 data_wide |>
@@ -486,6 +530,13 @@ data_wide |>
 
 ### Labour productivity
 
+Labour productivity is defined as output per unit of labor input and is
+measured as real output per employed person. It captures efficiency
+gains in the production process and influences firms’ pricing and
+wage-setting behavior. Labour productivity is denoted by:
+$$prod_t=Y_t/N_t$$​​ where $$Y_t$$ denotes real output and $$N_t$$ the
+number of employed individuals.
+
 ```{r}
 data_wide |>
   filter(country == "France") |>
@@ -496,6 +547,27 @@ data_wide |>
     title = "Labor productivity",
     x = "Year",
     y = "Labour productivity (OECD)"
+  ) +
+  theme_minimal()
+```
+
+### Potential Output (Volume)
+
+Potential output in volume corresponds to the level of real output that
+the economy can sustain in the long run without generating inflationary
+pressures. It is determined by structural factors such as technology,
+labor supply, and capital accumulation.
+
+```{r}
+data_wide |>
+  filter(country == "France") |>
+  drop_na(pot.y.vol.oecd) |>
+  ggplot(aes(x = time, y = pot.y.vol.oecd)) +
+  geom_line(na.rm = TRUE) +
+  labs(
+    title = "Potential Output in Volume",
+    x = "Year",
+    y = "Potential Output in Volume (OECD)"
   ) +
   theme_minimal()
 ```
@@ -670,20 +742,25 @@ will be our next observation.
 
 ## Before/after 2000
 
-We focus on 1990 as the dividing year because it marks a significant
-structural shift in the European and global economy. Around this time,
-Europe experienced major political and economic transformations, [mainly
-provoked by the fall of the USSR]{.mark}, along with that of the Berlin
-Wall, the reunification of Germany, and the liberalization of formerly
-planned economies in Eastern Europe. These events altered labor markets,
-inflation dynamics, and macroeconomic policies across the continent.
+We focus on 2000 as the dividing year because it corresponds to a major
+structural transformation in the European monetary and macroeconomic
+framework. The turn of the millennium is closely associated with the
+introduction of the euro and the establishment of a single monetary
+policy under the European Central Bank, which profoundly reshaped
+inflation dynamics and policy transmission mechanisms across euro area
+countries. The move from national monetary regimes to a centralized
+framework altered inflation expectations, wage-setting behavior, and the
+interaction between labor markets and prices.
 
-Additionally, the early 1990s coincide with the widespread adoption of
-modern central banking practices, with many European countries
-emphasizing stricter inflation targeting. Using 1990 as a breakpoints
-allows us to examine how the Phillips curve relationship between
-unemployment and inflation may have changed before and after these
-structural shifts.
+Moreover, the period around 2000 marks a phase of increased financial
+integration and credibility of monetary policy in Europe, accompanied by
+a stronger anchoring of inflation expectations. These developments
+likely affected the slope and stability of the Phillips curve by
+weakening the direct link between domestic labor market conditions and
+inflation outcomes. Using 2000 as a breakpoint therefore allows us to
+assess how the unemployment–inflation relationship evolved before and
+after the adoption of the euro and the consolidation of a common
+monetary policy regime.
 
 ```{r, message = FALSE, warning = FALSE}
 # First page
@@ -704,8 +781,8 @@ data_wide |>
     y = "Inflation rate (%)"
   ) +
   scale_color_manual(values = c(
-  "Before 1990" = "darkgrey",
-  "After 1990"  = "black"
+  "Before 2000" = "darkgrey",
+  "After 2000"  = "black"
 )) +
   theme_minimal()
 
@@ -756,14 +833,14 @@ data_wide |>
 ```
 
 The Phillips Curve graphs compare inflation and unemployment rates
-before and after 1990 across various countries. Before 1990, many
+before and after 2000 across various countries. Before 2000, many
 nations, like France and Spain, [show a clear inverse relationship,
-aligning with the traditional Phillips Curve theory. However, post-1990,
+aligning with the traditional Phillips Curve theory. However, post-2000,
 this relationship often weakens, disappears or even reverse]{.mark}, as
-seen in Germany or the UK, suggesting shifts in economic dynamics.
+seen in Sweden or the UK, suggesting shifts in economic dynamics.
 
 Furthermore, some countries, in particular eastern countries, lack
-pre-1990 data, which renders comparison complicated and pushes to
+pre-2000 data, which renders comparison complicated and pushes to
 period-wise comparison. For that, it is better to either reduce sample
 and focus on decade-wise comparison or keep a sample large enough and
 compare between large enough periods.
@@ -1012,7 +1089,7 @@ ranking_table |>
 
 ```
 
-### Graphs on contribution 
+### Graphs on contribution
 
 ```{r}
 ranking_table |>
