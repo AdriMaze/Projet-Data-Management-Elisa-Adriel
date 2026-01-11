@@ -598,13 +598,7 @@ the (real) exchange rate. This equation is based on [Gali & Monacelli
 (2005)](https://crei.cat/wp-content/uploads/users/pages/roes8739.pdf).
 See [Appendix A](#appendixA) for full derivation.
 
-## Improvements there could be (according to us)
-
 # Data visualization
-
-::: callout-important
-**Shorter periods to focus on today?**
-:::
 
 Let us represent as an "entrée" a basic scatter plot for the Phillips
 curve for [28 European countries]{.mark} over the period and we are
@@ -674,13 +668,7 @@ The question of the curvature of the Phillips curve, however, requires
 the differentiation between periods, say decades or key dates, which
 will be our next observation.
 
-## Before/after 1990
-
-::: callout-important
-**NOTE: peut-être pour avant-après 2000 aussi s'il nous manque des
-points de donnée pour 1990 pour certains pays? Car comme tu l'as dit, la
-plupart de ceux de l'Est auront rarement des données bien établies**
-:::
+## Before/after 2000
 
 We focus on 1990 as the dividing year because it marks a significant
 structural shift in the European and global economy. Around this time,
@@ -703,7 +691,7 @@ structural shifts.
 data_wide |>
   filter(cpi.wdi <= 40) |>
   mutate(
-    period = if_else(time < 1990, "Before 1990", "After 1990")
+    period = if_else(time < 2000, "Before 2000", "After 2000")
   ) |>
   select(time, country, cpi.wdi, unemp.tot.wdi, period) |>
   ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi, color = period)) +
@@ -726,7 +714,7 @@ data_wide |>
 data_wide |>
   filter(cpi.wdi <= 40) |>
   mutate(
-    period = if_else(time < 1990, "Before 1990", "After 1990")
+    period = if_else(time < 2000, "Before 2000", "After 2000")
   ) |>
   select(time, country, cpi.wdi, unemp.tot.wdi, period) |>
   ggplot(aes(x = unemp.tot.wdi, y = cpi.wdi, color = period)) +
@@ -738,8 +726,8 @@ data_wide |>
     y = "Inflation rate (%)"
   ) +
   scale_color_manual(values = c(
-  "Before 1990" = "darkgrey",
-  "After 1990"  = "black"
+  "Before 2000" = "darkgrey",
+  "After 2000"  = "black"
 )) +
   theme_minimal()
 
@@ -748,7 +736,7 @@ data_wide |>
 data_wide |>
   filter(cpi.wdi <= 40) |>
   mutate(
-    period = if_else(time < 1990, "Before 1990", "After 1990")
+    period = if_else(time < 2000, "Before 2000", "After 2000")
   ) |>
   select(time, country, cpi.wdi, unemp.tot.wdi, period) |>
   filter(country %in% c("Spain", "Sweden", "Switzerland", "United Kingdom")) |>
@@ -761,8 +749,8 @@ data_wide |>
     y = "Inflation rate (%)"
   ) +
   scale_color_manual(values = c(
-  "Before 1990" = "darkgrey",
-  "After 1990"  = "black"
+  "Before 2000" = "darkgrey",
+  "After 2000"  = "black"
 )) +
   theme_minimal()
 ```
@@ -779,15 +767,6 @@ pre-1990 data, which renders comparison complicated and pushes to
 period-wise comparison. For that, it is better to either reduce sample
 and focus on decade-wise comparison or keep a sample large enough and
 compare between large enough periods.
-
-## Focus on one country : France ???????
-
-::: callout-important
-**NOTE: Pas sûr pour la France ou même pour la concentration sur un
-pays, car on a principalement des variables de politiques appliquables
-seulement au niveau de l'Union, style les taux de changes, la politique
-monétaire et certaines politiques européennes**
-:::
 
 # Data analysis
 
@@ -1033,6 +1012,8 @@ ranking_table |>
 
 ```
 
+### Graphs on contribution 
+
 ```{r}
 ranking_table |>
   select(period, variable, pct_slope) |>
@@ -1142,7 +1123,7 @@ parameters $\gamma_1\equiv\beta$,
 $\gamma_2\equiv -\frac{\kappa}{\delta}$ and
 $\gamma_3\equiv\kappa \alpha$.
 
-## Appendix B: Per country
+## Appendix B: Results per country
 
 ```{r}
 final_table |>
