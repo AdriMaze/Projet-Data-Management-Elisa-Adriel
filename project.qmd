@@ -1060,13 +1060,30 @@ ranking_table <- final_table |>
 ```
 
 ```{r}
+period_labels <- c(
+  pre_euro      = "Pre-EMU (pre-1999)",
+  euro_pre_gfc  = "EMU – pre-GFC",
+  post_gfc      = "Post-GFC",
+  post_covid    = "Post-COVID"
+)
+
+var_labels <- c(
+  "ecb.IR.oecd"          = "ECB policy rate",
+  "lt.IR.gov.bonds.oecd" = "Long-term gov. yield",
+  "ex.rate.usd.oecd"    = "USD exchange rate",
+  "labor.prod.oecd"    = "Labour productivity",
+  "pot.y.vol.oecd"      = "Potential output volatility"
+)
+```
+
+
+```{r}
 ranking_table |>
-  select(
-    period,
-    variable,
-    pct_slope,
-    pct_curvature
+  mutate(
+    period   = recode(period, !!!period_labels),
+    variable = recode(variable, !!!var_labels)
   ) |>
+  select(period, variable, pct_slope, pct_curvature) |>
   mutate(
     pct_slope     = round(pct_slope, 1),
     pct_curvature = round(pct_curvature, 1)
@@ -1086,13 +1103,16 @@ ranking_table |>
     full_width = FALSE,
     position = "center"
   )
-
 ```
 
 ### Graphs on contribution
 
 ```{r}
 ranking_table |>
+  mutate(
+    period   = recode(period, !!!period_labels),
+    variable = recode(variable, !!!var_labels)
+  ) |>
   select(period, variable, pct_slope) |>
   ggplot(aes(x = period, y = pct_slope, fill = variable)) +
   geom_col(width = 0.7) +
@@ -1100,14 +1120,20 @@ ranking_table |>
   labs(
     title = "What shapes the Phillips curve slope? (percentage contributions)",
     x = "",
-    y = "% contribution"
+    y = "% contribution",
+    fill = ""
   ) +
   theme_minimal() +
   theme(
     legend.position = "bottom",
-    axis.text.x = element_text(angle = 0, hjust = 0.5)
+    axis.text.x = element_text(hjust = 0.5)
   )
+
 ranking_table |>
+  mutate(
+    period   = recode(period, !!!period_labels),
+    variable = recode(variable, !!!var_labels)
+  ) |>
   select(period, variable, pct_curvature) |>
   ggplot(aes(x = period, y = pct_curvature, fill = variable)) +
   geom_col(width = 0.7) +
@@ -1115,10 +1141,12 @@ ranking_table |>
   labs(
     title = "What shapes the Phillips curve curvature? (percentage contributions)",
     x = "",
-    y = "% contribution"
+    y = "% contribution",
+    fill = ""
   ) +
   theme_minimal() +
   theme(legend.position = "bottom")
+
 ```
 
 # Conclusion
