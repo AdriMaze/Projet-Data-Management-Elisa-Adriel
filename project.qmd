@@ -359,7 +359,7 @@ and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
 will reduce this dataset and use subsets, which will be specified every
 time.
 
-## Focus variables: unemployment, inflation, and wages
+## Focus variables: unemployment, inflation, and wages (Phase 2)
 
 Our two main variables are evidently unemployment and inflation, because
 they are the variables on which we will focus.
@@ -534,7 +534,8 @@ Labour productivity is defined as output per unit of labor input and is
 measured as real output per employed person. It captures efficiency
 gains in the production process and influences firms’ pricing and
 wage-setting behavior. Labour productivity is denoted by:
-$a_t \equiv \frac{Y_t}{N_t}$ where $Y_t$ denotes real output and $N_t$ the number of employed individuals.
+$a_t \equiv \frac{Y_t}{N_t}$ where $Y_t$ denotes real output and $N_t$
+the number of employed individuals.
 
 ```{r}
 data_wide |>
@@ -1075,7 +1076,6 @@ var_labels <- c(
 )
 ```
 
-
 ```{r}
 ranking_table |>
   mutate(
@@ -1147,19 +1147,79 @@ ranking_table |>
   theme(legend.position = "bottom")
 
 ```
-A detailed country-by-country per period contribution table can be found in [Appendix B](#appendixB)
+
+A detailed country-by-country per period contribution table can be found
+in [Appendix B](#appendixB)
 
 # Conclusion
 
-The results show that the slope of the Phillips curve is mainly determined, regardless of the period, by labor productivity, with an average contribution of 69.2% over the periods, ranging from 58.1% to 75.9%. This represents the largest share of the explanatory contribution, suggesting that the transmission of labor market tensions to inflation occurs primarily through unit labor costs and the ability of firms to absorb wage increases. Before the 2008 global financial crisis, particularly in the pre-euro and pre-GFC euro periods, financial variables such as long-term interest rates and, to a lesser extent, exchange rates still played a significant role in shaping the slope. This reflects a macroeconomic environment in which financial conditions and inflation expectations were less well anchored. Interest rates on government bonds contributed up to 25% to the slope. After the GFC, however, the contribution of financial variables declined sharply, while that of productivity increased, consistent with the idea of a weakening of the traditional monetary transmission channel and a flattening of the Phillips curve.
+The results show that the slope of the Phillips curve is mainly
+determined, regardless of the period, by labor productivity, with an
+average contribution of 69.2% over the periods, ranging from 58.1% to
+75.9%. This represents the largest share of the explanatory
+contribution, suggesting that the transmission of labor market tensions
+to inflation occurs primarily through unit labor costs and the ability
+of firms to absorb wage increases. Before the 2008 global financial
+crisis, particularly in the pre-euro and pre-GFC euro periods, financial
+variables such as long-term interest rates and, to a lesser extent,
+exchange rates still played a significant role in shaping the slope.
+This reflects a macroeconomic environment in which financial conditions
+and inflation expectations were less well anchored. Interest rates on
+government bonds contributed up to 25% to the slope. After the GFC,
+however, the contribution of financial variables declined sharply, while
+that of productivity increased, consistent with the idea of a weakening
+of the traditional monetary transmission channel and a flattening of the
+Phillips curve.
 
-The post-financial crisis period is thus characterized by an inflation-unemployment relationship that is driven more by structural factors than cyclical ones. The weak contribution of ECB policy rates and long-term rates to the slope of the curve suggests that, in a context of deleveraging, liquidity traps, and low inflation, monetary policy has less of a direct influence on price dynamics via the labor market. This pattern has persisted and intensified since the Covid-19 crisis, despite a more unstable macroeconomic environment, confirming that the slope of the curve depends primarily on real mechanisms linked to productivity and the organization of the labor market. Nevertheless, the relatively stable and low contributions of the exchange rate, fluctuating between 0.9% and 1.8%, indicate the weak impact of international labor mobility on the relationship between endogenous variables.
+The post-financial crisis period is thus characterized by an
+inflation-unemployment relationship that is driven more by structural
+factors than cyclical ones. The weak contribution of ECB policy rates
+and long-term rates to the slope of the curve suggests that, in a
+context of deleveraging, liquidity traps, and low inflation, monetary
+policy has less of a direct influence on price dynamics via the labor
+market. This pattern has persisted and intensified since the Covid-19
+crisis, despite a more unstable macroeconomic environment, confirming
+that the slope of the curve depends primarily on real mechanisms linked
+to productivity and the organization of the labor market. Nevertheless,
+the relatively stable and low contributions of the exchange rate,
+fluctuating between 0.9% and 1.8%, indicate the weak impact of
+international labor mobility on the relationship between endogenous
+variables.
 
-With regard to the curvature of the Phillips curve, the results indicate that it is mainly shaped by labor productivity and potential GDP volatility, with an average contribution of 60.5% for the former and 24.3% for the latter. The curvature captures nonlinear effects, i.e., the fact that inflation reacts more strongly when the economy is operating close to or above its potential. Before the 2008 crisis, macroeconomic volatility played an important role in the emergence of these nonlinearities, reflecting a less stable inflation regime. After the GFC, the contribution of financial variables to the curvature became marginal, i.e., never exceeding 10% individually, suggesting that extreme inflationary pressures no longer stem primarily from financial conditions, but rather from real supply constraints.
+With regard to the curvature of the Phillips curve, the results indicate
+that it is mainly shaped by labor productivity and potential GDP
+volatility, with an average contribution of 60.5% for the former and
+24.3% for the latter. The curvature captures nonlinear effects, i.e.,
+the fact that inflation reacts more strongly when the economy is
+operating close to or above its potential. Before the 2008 crisis,
+macroeconomic volatility played an important role in the emergence of
+these nonlinearities, reflecting a less stable inflation regime. After
+the GFC, the contribution of financial variables to the curvature became
+marginal, i.e., never exceeding 10% individually, suggesting that
+extreme inflationary pressures no longer stem primarily from financial
+conditions, but rather from real supply constraints.
 
-Finally, the post-Covid period is characterized by a relative increase in the volatility of potential GDP in explaining the curve, linked to supply shocks, disruptions in value chains, and sectoral reallocations. This indicates that, even though the Phillips curve has been flatter overall since the 2008 financial crisis, it remains nonlinear when the economy faces major structural shocks. Overall, these results suggest that the GFC represents a lasting break in the functioning of the Phillips curve, which has become less sensitive to monetary instruments and more governed by structural and supply factors.
+Finally, the post-Covid period is characterized by a relative increase
+in the volatility of potential GDP in explaining the curve, linked to
+supply shocks, disruptions in value chains, and sectoral reallocations.
+This indicates that, even though the Phillips curve has been flatter
+overall since the 2008 financial crisis, it remains nonlinear when the
+economy faces major structural shocks. Overall, these results suggest
+that the GFC represents a lasting break in the functioning of the
+Phillips curve, which has become less sensitive to monetary instruments
+and more governed by structural and supply factors.
 
-The results of this analysis are consistent with the theory of economic convergence: as economies grow, output converges toward its potential level and endogenous variables are determined dichotomously by supply. The Phillips curve relationship therefore exhibits characteristics such that, during major non-structural shocks, we observe significant contributions from exogenous variables linked to the stabilization instruments available to economic institutions and, conversely, a weaker contribution during periods of stabilization. This naturally leads to the establishment, in the long term, of economies where a quasi-infinite number of unemployment levels are compatible with a (convergent) level of inflation.
+The results of this analysis are consistent with the theory of economic
+convergence: as economies grow, output converges toward its potential
+level and endogenous variables are determined dichotomously by supply.
+The Phillips curve relationship therefore exhibits characteristics such
+that, during major non-structural shocks, we observe significant
+contributions from exogenous variables linked to the stabilization
+instruments available to economic institutions and, conversely, a weaker
+contribution during periods of stabilization. This naturally leads to
+the establishment, in the long term, of economies where a quasi-infinite
+number of unemployment levels are compatible with a (convergent) level
+of inflation.
 
 # Appendix
 
@@ -1240,7 +1300,8 @@ $\gamma_3\equiv\kappa \alpha$.
 
 ## Appendix B: Results per country {#appendixB}
 
-Here is the country-by-country per period contributions of each exogenous variables to the slope and curvature of the Phillips curve:
+Here is the country-by-country per period contributions of each
+exogenous variables to the slope and curvature of the Phillips curve:
 
 ```{r}
 final_table |>
