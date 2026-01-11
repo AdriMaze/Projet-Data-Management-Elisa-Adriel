@@ -3,9 +3,14 @@ title: "On the curvature of the Phillips curve"
 author: "Elisa Colson & Adriel Mazère"
 
 format: 
+  wordcount-html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    code-fold: true
+    count-code-blocks: false
 
   wordcount-pdf:
-    toc: true
     code: false
     count-code-blocks: false
 
@@ -15,6 +20,8 @@ execute:
 editor: 
   markdown: 
     wrap: 72
+    
+prefer-html: true
 ---
 
 # Setup
@@ -45,20 +52,11 @@ You can find the link to the Github
 [here](https://github.com/AdriMaze/Projet-Data-Management-Elisa-Adriel.git)
 :::
 
-::: callout-note
-## Note
-
-The `ggforce` package was found on Reddit and provided a better
-alternative to `facet_wrap`, namely `facet_wrap_paginate`, especially
-due to the high quantity of different entities (countries) that we face
-in this dataset.
-:::
-
 # Motivation for the project
 
 The dynamics in the labor market are the most complicated out of all
 markets, because it mixes the humane reasoning and the economic one. The
-[Phillips curve has always been a reference tool]{.mark} because of the
+Phillips curve has always been a reference tool because of the
 simplicity of the relationship between prices and unemployment it
 created. This relationship could not only provide an analytically point
 of view about the conjuncture, but also a policy tool. In every
@@ -75,10 +73,10 @@ empirical properties have evolved across countries and over time.
 
 The Phillips curve is a fundamental concept in economics, and the basis
 of most neo-models, whether it be from classic or more keynesian
-schools. It was [first observed a negative relationship between
-unemployment and inflation rate]{.mark}, but as time passes, and accross
-countries as well, this relationship is [less and less true]{.mark}. In
-many advanced economies, periods of low unemployment have not been
+schools. It was first observed a negative relationship between
+unemployment and inflation rate, but as time passes, and accross
+countries as well, this relationship is less and less true. In many
+advanced economies, periods of low unemployment have not been
 accompanied by significant inflationary pressures, while inflation has
 sometimes remained subdued despite tight labor market conditions.
 
@@ -92,11 +90,13 @@ relationship between inflation and unemployment, and instead considers
 how changes in the surrounding economic environment may affect the
 strength of this relationship.
 
-> ***What drove the variations in the curvature of the Phillips curve
-> since the 1960s ?*** In other words, how has the slope of the Phillips
-> curve between inflation and unemployment evolved over time across
-> European countries, and which structural or policy-related factors are
-> associated with these changes?
+::: text-center
+**What drove the variations in the curvature of the Phillips curve since
+the 1960s? In other words, how has the slope of the Phillips curve
+between inflation and unemployment evolved over time across European
+countries, and which structural or policy-related factors are associated
+with these changes?**
+:::
 
 ## Sources
 
@@ -156,6 +156,13 @@ Development indicators :
 
 ## Data
 
+::: callout-warning
+For simplicity, we continued the "final phase" on the same quarto
+document as the "second phase", hence, we did not feel that we needed
+another document. Every dataset description and essential variables'
+description is in the following chunk.
+:::
+
 ### Data loading
 
 ```{r, message = FALSE, warning = FALSE}
@@ -167,10 +174,10 @@ WDI <- vroom("data/DATA WDI.csv")
 ### Necessary data manipulation
 
 All the data in OECD is annual and there are many unnecessary columns.
-We keep only the [reference area, measure, time period and observation
-value]{.mark} of the measure, respectively named `country`, `measure`,
-`time` and `value`. We will also rename all variables such that they
-will be identifiable from the OECD database, but still recognizable.
+We keep only the reference area, measure, time period and observation
+value of the measure, respectively named `country`, `measure`, `time`
+and `value`. We will also rename all variables such that they will be
+identifiable from the OECD database, but still recognizable.
 
 ```{r, message = FALSE, warning = FALSE}
 # Manipulating OECD data
@@ -347,17 +354,11 @@ data_wide <- data_long |>
   )
 ```
 
-Therefore, our total dataset comprises [28 countries for 57 variables,
-and spans 1960 to 2026]{.mark}. Of course, for analysis purposes, we
-will reduce this dataset and use subsets, which will be specified every
-time.
+Therefore, our total dataset comprises 28 countries for 57 variables,
+and spans 1960 to 2026. Of course, for analysis purposes, we will reduce
+this dataset and use subsets, which will be specified every time.
 
-## Focus variables: unemployment, inflation, and wages (Phase 2)
-
-::: callout-warning
-For final phase, we continue on the document we created for the phase 2.
-Thus, the description of the variables will be there.
-:::
+## Focus variables: unemployment, inflation, and wages
 
 Our two main variables are evidently unemployment and inflation, because
 they are the variables on which we will focus.
@@ -365,17 +366,17 @@ they are the variables on which we will focus.
 ::: callout-tip
 ## Definitions
 
-The [Consumer Price Index (CPI)]{.mark} is a statistical index that
-tracks the average change over time in prices paid by households for a
-fixed representative “basket” of goods and services.\
-The [(CPI) inflation rate]{.mark} is the percentage change in CPI over a
-period (month-to-month, year-to-year), given by: $$
+The Consumer Price Index (CPI) is a statistical index that tracks the
+average change over time in prices paid by households for a fixed
+representative “basket” of goods and services.\
+The (CPI) inflation rate is the percentage change in CPI over a period
+(month-to-month, year-to-year), given by: $$
 \pi_t= \frac{CPI_t-CPI_{t-1}}{CPI_{t-1}}\times 100\%
-$$ According to OECD definition, an [unemployed individual]{.mark} is a
-working age individual that is not employed, is available to work and
-has been actively looking for employment during a reference period.\
-The [unemployment rate]{.mark} is therefore defined as the percentage
-share of unemployed individuals in total labor force, given by: $$
+$$ According to OECD definition, an unemployed individual is a working
+age individual that is not employed, is available to work and has been
+actively looking for employment during a reference period.\
+The unemployment rate is therefore defined as the percentage share of
+unemployed individuals in total labor force, given by: $$
 u_t=\frac{U_t}{L_t}\times 100\%
 $$ Where $U_t$ is the total number of unemployed individuals and $L_t$
 the total number of individuals in the labor force.
@@ -502,13 +503,8 @@ data_wide |>
 
 The exchange rate measures the price of the domestic currency in terms
 of a foreign currency, here defined as the bilateral nominal exchange
-rate vis-à-vis the US dollar. It is denoted by:
-
-$$
-e_t
-$$
-
-An increase in $$e_t$$ corresponds to a depreciation of the domestic
+rate vis-à-vis the US dollar. It is denoted by $e_t$.\
+An increase in $e_t$ corresponds to a depreciation of the domestic
 currency. Exchange rate movements affect inflation through import prices
 and external competitiveness.
 
@@ -575,22 +571,22 @@ data_wide |>
 ## What is the Phillips curve?
 
 The curve was conceptualized by William Phillips in 1958 in the
-[Economica]{.mark} journal. He apparently observed the negative
-relationship between the increase in nominal wages and unemployment
-between 1861 and 1957.
+Economica journal. He apparently observed the negative relationship
+between the increase in nominal wages and unemployment between 1861 and
+1957.
 
 ::: callout-tip
 ## Fun fact!
 
 A few people actually know the true story behind this curve, but
 according to a friend of Phillips who then worked at the ECB and passed
-down this story in the Financial Analysis department, [Phillips actually
-computed the curve ... by hand]{.mark}! In fact, he took the data,
-created 5 or so averages and observed the negative relationship in the
-graph. This is the true (yet not so sexy and serious) story behind the
-"statistical observation" of this curve. Although his work was
-thereafter taken by other brilliant economist, which found (not so
-strong though) similar relationships.
+down this story in the Financial Analysis department, Phillips actually
+computed the curve ... by hand! In fact, he took the data, created 5 or
+so averages and observed the negative relationship in the graph. This is
+the true (yet not so sexy and serious) story behind the "statistical
+observation" of this curve. Although his work was thereafter taken by
+other brilliant economist, which found (not so strong though) similar
+relationships.
 :::
 
 He derived the following relationship:
@@ -603,54 +599,53 @@ Where $\frac{\Delta W}{W}$ represents the rate of change of nominal
 wages and $U$ represents unemployment. The rest are parameters. This
 equation has a very practical theoretical reasoning which serves as a
 strong foundation for wage bargaining theory, which itself lies in the
-center of labor market economics. [When unemployment increases, the firm
+center of labor market economics. When unemployment increases, the firm
 has more "supply" of potential workers, therefore, their bargaining
-power decreases, and so does their wages]{.mark}, which in turns create
-a decrease in prices, because firms can supply more. Vice-versa if
+power decreases, and so does their wages, which in turns create a
+decrease in prices, because firms can supply more. Vice-versa if
 unemployment decreases.
 
 ## Historical development
 
-In November 1958, the journal [Economica]{.mark} published an article by
-A.W. Phillips, a New Zealand economist working at the London School of
-Economics, entitled [‘The relationship between unemployment and the rate
-of growth of nominal wages in the United Kingdom, 1861-1957’]{.mark}.
-Phillips sought to test the idea that [unemployment and nominal wage
-growth move in opposite directions]{.mark}. His intuition was that the
-labor market is like any other market: periods of strong demand put
-upward pressure on prices, and vice-versa. Thus, when economic activity
-is strong, unemployment is low and employees are in a position of
-strength to demand wage increases. Conversely, when economic activity
-slows, high unemployment encourages wage moderation. The unemployment
-rate would therefore be the main determinant of wage growth. An analysis
-of UK data confirms the existence of an inverse relationship between the
+In November 1958, the journal Economica published an article by A.W.
+Phillips, a New Zealand economist working at the London School of
+Economics, entitled ‘The relationship between unemployment and the rate
+of growth of nominal wages in the United Kingdom, 1861-1957’. Phillips
+sought to test the idea that unemployment and nominal wage growth move
+in opposite directions. His intuition was that the labor market is like
+any other market: periods of strong demand put upward pressure on
+prices, and vice-versa. Thus, when economic activity is strong,
+unemployment is low and employees are in a position of strength to
+demand wage increases. Conversely, when economic activity slows, high
+unemployment encourages wage moderation. The unemployment rate would
+therefore be the main determinant of wage growth. An analysis of UK data
+confirms the existence of an inverse relationship between the
 unemployment rate and the rate of growth in nominal wages.
 
-It enabled [Keynesian macroeconomics to move from static to dynamic
-analysis]{.mark}, thereby providing the missing equation in Keynesian
-theory. Indeed, Keynesian analysis prior to the Phillips curve was
-limited to explaining fluctuations in activity through variations in
-demand, but as a fixed-price analysis, it shed no light on price
-dynamics. After the introduction of the Phillips curve, the
-macroeconomic equilibrium for a given period described by the aggregate
-supply-aggregate demand (AD-AS) model of synthesis changes over time
-according to the dynamics of nominal wages: at fixed prices, at a given
-period $t$, demand determines output and employment and therefore also
-unemployment, which, via the Phillips relationship, will influence the
-evolution of nominal wages, and therefore prices, between period $t$ and
-period $t + 1$. Prices at $t + 1$ will in turn determine demand at
-$t + 1$, and so on.
+It enabled Keynesian macroeconomics to move from static to dynamic
+analysis, thereby providing the missing equation in Keynesian theory.
+Indeed, Keynesian analysis prior to the Phillips curve was limited to
+explaining fluctuations in activity through variations in demand, but as
+a fixed-price analysis, it shed no light on price dynamics. After the
+introduction of the Phillips curve, the macroeconomic equilibrium for a
+given period described by the aggregate supply-aggregate demand (AD-AS)
+model of synthesis changes over time according to the dynamics of
+nominal wages: at fixed prices, at a given period $t$, demand determines
+output and employment and therefore also unemployment, which, via the
+Phillips relationship, will influence the evolution of nominal wages,
+and therefore prices, between period $t$ and period $t + 1$. Prices at
+$t + 1$ will in turn determine demand at $t + 1$, and so on.
 
-This relationship, in a later version, had very [strong implications for
-economic policy]{.mark}. Indeed, an extension of the Phillips curve was
-proposed in 1960 by Samuelson and Solow. They first found results
-similar to those of Phillips on American data for the period 1900-1960;
-then, based on the principle that any change in wages necessarily
-affects prices via costs, they transformed Phillips' original
-relationship into a relationship between unemployment and inflation
-(rather than wage inflation). The Phillips relationship in the form
-provided by Samuelson and Solow thus provided evidence of a possible
-trade-off between inflation and unemployment.
+This relationship, in a later version, had very strong implications for
+economic policy. Indeed, an extension of the Phillips curve was proposed
+in 1960 by Samuelson and Solow. They first found results similar to
+those of Phillips on American data for the period 1900-1960; then, based
+on the principle that any change in wages necessarily affects prices via
+costs, they transformed Phillips' original relationship into a
+relationship between unemployment and inflation (rather than wage
+inflation). The Phillips relationship in the form provided by Samuelson
+and Solow thus provided evidence of a possible trade-off between
+inflation and unemployment.
 
 ## Actual researches on it
 
@@ -671,9 +666,9 @@ See [Appendix A](#appendixA) for full derivation.
 # Data visualization
 
 Let us represent as an "entrée" a basic scatter plot for the Phillips
-curve for [28 European countries]{.mark} over the period and we are
-using WDI data because it is more complete. We still exclude inflation
-rates above 40%.
+curve for 28 European countries over the period and we are using WDI
+data because it is more complete. We still exclude inflation rates above
+40%.
 
 ```{r, message = FALSE, warning = FALSE}
 # First page
@@ -725,11 +720,11 @@ data_wide |>
 ```
 
 A simple visualization reassures us on theory. We can indeed see that
-[over the complete span 1960-2026, the Phillips curve seems, for most
-countries, to obey the theory]{.mark} and display a downward slopping
-tendency. There are though some surprising results, as we can see mainly
-for the "Eastern Block" countries, which display almost flat or slightly
-upward sloping curves.
+over the complete span 1960-2026, the Phillips curve seems, for most
+countries, to obey the theory and display a downward slopping tendency.
+There are though some surprising results, as we can see mainly for the
+"Eastern Block" countries, which display almost flat or slightly upward
+sloping curves.
 
 Whether these results are due to true economic tendencies or simply a
 lack of data or data mismatch will be determined with the analysis.
@@ -832,10 +827,10 @@ data_wide |>
 
 The Phillips Curve graphs compare inflation and unemployment rates
 before and after 2000 across various countries. Before 2000, many
-nations, like France and Spain, [show a clear inverse relationship,
+nations, like France and Spain, show a clear inverse relationship,
 aligning with the traditional Phillips Curve theory. However, post-2000,
-this relationship often weakens, disappears or even reverse]{.mark}, as
-seen in Sweden or the UK, suggesting shifts in economic dynamics.
+this relationship often weakens, disappears or even reverse, as seen in
+Sweden or the UK, suggesting shifts in economic dynamics.
 
 Furthermore, some countries, in particular eastern countries, lack
 pre-2000 data, which renders comparison complicated and pushes to
@@ -849,11 +844,11 @@ compare between large enough periods.
 
 This model allows us, contrary to a classical Difference-in-Difference
 (DiD) model, to analyze the cross-period changes of the Phillips curve
-over time, especially the [impacts of the underlying variables'
+over time, especially the impacts of the underlying variables'
 (policies, sensibilities, shocks...) period-specific and cross-period
-influences on the slope and the curvature]{.mark}. Furthermore, from
-[Appendix A](#appendixA) we know that thanks to Okun's law we can
-express the NKPC in terms of economic slack, *i.e.*, unemployment gap.
+influences on the slope and the curvature. Furthermore, from [Appendix
+A](#appendixA) we know that thanks to Okun's law we can express the NKPC
+in terms of economic slack, *i.e.*, unemployment gap.
 
 Formally, let $\pi_t$ denote inflation, $u_t$ unemployment gap, then
 $u_t^2$ captures the nonlinear sensitivity to slack, $D_{k,t}$ denotes
@@ -912,14 +907,14 @@ $$ And which concerns the differences between a "treatment" and a
 "control" group, this experimental model concerns a more generalized
 approach, including non-linearity, more-than-two interaction terms and
 cross-period parameters. Inspiring sources using this kind of method in
-economics are [niche, but not inexistant]{.mark}, seeing [Baker et al.
+economics are niche, but not inexistant, seeing [Baker et al.
 (2025)](https://arxiv.org/pdf/2503.13323), [Callaway & Sant'Anna
 (2018)](https://www.cla.temple.edu/RePEc/documents/DETU_18_04.pdf),
 [(2020)](https://psantanna.com/files/Callaway_SantAnna_2020.pdf), or
 [Chaisemartin et al. (2022)](https://arxiv.org/pdf/2201.06898).
 :::
 
-## Model implementation & results
+## Model implementation
 
 ```{r}
 Z_vars <- c(
@@ -1086,7 +1081,8 @@ ranking_table |>
     pct_curvature = round(pct_curvature, 1)
   ) |>
   knitr::kable(
-    format="latex",
+    format = ifelse(knitr::is_latex_output(), "latex", "html"),
+    booktabs = TRUE,
     caption = "Percentage contribution of structural variables to the Phillips curve, by period",
     col.names = c(
       "Period",
@@ -1096,7 +1092,7 @@ ranking_table |>
     )
   ) |>
   kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover", "condensed"),
+    latex_options = c("hold_position", "scale_down"), 
     full_width = FALSE,
     position = "center"
   )
@@ -1167,8 +1163,7 @@ government bonds contributed up to 25% to the slope. After the GFC,
 however, the contribution of financial variables declined sharply, while
 that of productivity increased, consistent with the idea of a weakening
 of the traditional monetary transmission channel and a flattening of the
-Phillips curve.
-
+Phillips curve.\
 The post-financial crisis period is thus characterized by an
 inflation-unemployment relationship that is driven more by structural
 factors than cyclical ones. The weak contribution of ECB policy rates
@@ -1182,8 +1177,7 @@ to productivity and the organization of the labor market. Nevertheless,
 the relatively stable and low contributions of the exchange rate,
 fluctuating between 0.9% and 1.8%, indicate the weak impact of
 international labor mobility on the relationship between endogenous
-variables.
-
+variables.\
 With regard to the curvature of the Phillips curve, the results indicate
 that it is mainly shaped by labor productivity and potential GDP
 volatility, with an average contribution of 60.5% for the former and
@@ -1195,8 +1189,7 @@ these nonlinearities, reflecting a less stable inflation regime. After
 the GFC, the contribution of financial variables to the curvature became
 marginal, i.e., never exceeding 10% individually, suggesting that
 extreme inflationary pressures no longer stem primarily from financial
-conditions, but rather from real supply constraints.
-
+conditions, but rather from real supply constraints.\
 Finally, the post-Covid period is characterized by a relative increase
 in the volatility of potential GDP in explaining the curve, linked to
 supply shocks, disruptions in value chains, and sectoral reallocations.
@@ -1205,8 +1198,7 @@ overall since the 2008 financial crisis, it remains nonlinear when the
 economy faces major structural shocks. Overall, these results suggest
 that the GFC represents a lasting break in the functioning of the
 Phillips curve, which has become less sensitive to monetary instruments
-and more governed by structural and supply factors.
-
+and more governed by structural and supply factors.\
 The results of this analysis are consistent with the theory of economic
 convergence: as economies grow, output converges toward its potential
 level and endogenous variables are determined dichotomously by supply.
@@ -1228,9 +1220,11 @@ yields the CES consumption function:
 
 $$
 C_t(i)=\left(\frac{P_t(i)}{P_t} \right)^{-\varepsilon}\cdot C_t
-$$ For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms
-produce according to a linear production function $Y_t(i)=A_tN_t(i)$
-where $a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$)
+$$
+
+For $i\in[0,1]$ firms. Market clears at $Y_t(i)=C_t(i)$. Firms produce
+according to a linear production function $Y_t(i)=A_tN_t(i)$ where
+$a_t\equiv \log{A_t}$ follows an AR(1) process with MA($\infty$)
 representation $a_t=\sum_{k=0}^{+\infty}{\rho_a^k \epsilon_{t-k}}$.
 Moreover, firms price [*a la Calvo*
 (1983)](https://www.sciencedirect.com/science/article/abs/pii/0304393283900600),
@@ -1248,9 +1242,9 @@ MC_t=(1-\chi) \frac{W_t}{P_t}+\chi S_t P_t^f
 $$
 
 Where $S_t$ is the nominal exchange rate and $P_t^f$ is the foreign
-price index. [$\chi$ represents home bias preference, and therefore is a
-natural index for openness to trade]{.mark} The optimal consumer price
-index (CPI) inflation condition, where inflation is defined as
+price index. $\chi$ represents home bias preference, and therefore is a
+natural index for openness to trade The optimal consumer price index
+(CPI) inflation condition, where inflation is defined as
 $\pi_t \equiv p_t-p_{t-1}$, is given by:
 
 $$
@@ -1282,15 +1276,15 @@ $\gamma_3\equiv\kappa \alpha$.
 
 $$
 \text{NKPC (2):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{y}_t-\hat{y}^n_t)+\gamma_3 \cdot \hat{q}_t
-$$ Using the fact that [under imperfect competition, the real unit labor
-cost is equal to the output gap]{.mark} such that
+$$ Using the fact that under imperfect competition, the real unit labor
+cost is equal to the output gap such that
 $\hat{w}_t-\hat{p}_t-\hat{a}_t=\hat{y}_t-\hat{y}^n_t$, and with
 parameters $\gamma_1\equiv\beta$, $\gamma_2\equiv \kappa\varphi$ and
 $\gamma_3\equiv\kappa \alpha$.
 
 $$
 \text{NKPC (3):} \quad \pi_t =\gamma_1 \cdot \mathbb{E}_t[\pi_{t+1}]+\gamma_2 \cdot (\hat{u}_t-\hat{u}^n_t)+\gamma_3 \cdot \hat{q}_t
-$$ Using [Okun's law]{.mark}, which can be expressed as
+$$ Using Okun's law, which can be expressed as
 $-\delta(\hat{y}_t-\hat{y}^n_t)=\hat{u}_t-\hat{u}^n_t$, and with
 parameters $\gamma_1\equiv\beta$,
 $\gamma_2\equiv -\frac{\kappa}{\delta}$ and
@@ -1301,9 +1295,21 @@ $\gamma_3\equiv\kappa \alpha$.
 Here is the country-by-country per period contributions of each
 exogenous variables to the slope and curvature of the Phillips curve:
 
-```{r}
-final_table |>
-  group_by(country, period) |>
+```{r results="asis"}
+# ---- detect country column safely ----
+country_col <- intersect(
+  c("country", "Country", "iso", "iso3", "ctry"),
+  names(final_table)
+)[1]
+
+if (is.na(country_col)) {
+  stop("No country column found in final_table")
+}
+
+# ---- prepare data ----
+tbl <-
+  final_table |>
+  group_by(across(all_of(country_col)), period) |>
   mutate(
     pct_slope = 100 * abs(slope_contribution) /
       sum(abs(slope_contribution), na.rm = TRUE),
@@ -1312,31 +1318,48 @@ final_table |>
   ) |>
   ungroup() |>
   select(
-    country,
+    all_of(country_col),
     period,
     variable,
     pct_slope,
     pct_curvature
   ) |>
+  rename(country = all_of(country_col)) |>
   mutate(
-    pct_slope     = round(pct_slope, 1),
+    pct_slope = round(pct_slope, 1),
     pct_curvature = round(pct_curvature, 1)
   ) |>
-  arrange(country, period, desc(pct_slope)) |>
-  knitr::kable(
-    format = "latex",
-    caption = "Country- and period-specific percentage contributions to the Phillips curve",
-    col.names = c(
-      "Country",
-      "Period",
-      "Variable",
-      "% contribution to slope",
-      "% contribution to curvature"
+  arrange(country, period, desc(pct_slope))
+
+# ---- one table per country ----
+for (ctry in unique(tbl$country)) {
+
+  df <- tbl |> filter(country == ctry)
+
+  out <-
+    df |>
+    select(-country) |>
+    knitr::kable(
+      format = ifelse(knitr::is_latex_output(), "latex", "html"),
+      booktabs = TRUE,
+      longtable = knitr::is_latex_output(),
+      caption = paste0("Percentage contributions to the Phillips curve — ", ctry),
+      col.names = c(
+        "Period",
+        "Variable",
+        "% contribution to slope",
+        "% contribution to curvature"
+      )
+    ) |>
+    kableExtra::kable_styling(
+      latex_options = if (knitr::is_latex_output()) "repeat_header" else NULL,
+      bootstrap_options = c("striped", "condensed"),
+      full_width = FALSE,
+      position = "center"
     )
-  ) |>
-  kableExtra::kable_styling(
-    bootstrap_options = c("striped", "condensed"),
-    full_width = FALSE,
-    position = "center"
-  )
+
+  print(out)
+
+  if (!knitr::is_latex_output()) cat("\n\n")
+}
 ```
