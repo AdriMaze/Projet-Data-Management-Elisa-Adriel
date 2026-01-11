@@ -3,14 +3,9 @@ title: "On the curvature of the Phillips curve"
 author: "Elisa Colson & Adriel Mazère"
 
 format: 
-  wordcount-html:
-    toc: true
-    toc-depth: 3
-    toc-location: left
-    code-fold: true
-    count-code-blocks: false
 
   wordcount-pdf:
+    toc: true
     code: false
     count-code-blocks: false
 
@@ -98,12 +93,10 @@ how changes in the surrounding economic environment may affect the
 strength of this relationship.
 
 > ***What drove the variations in the curvature of the Phillips curve
-> since the 1960s? A multi-modal, multi-temporal, cross-country analysis
-> of the impact of underlying regime and policy variables on the
-> relationship between unemployment and inflation //*** How has the
-> slope of the Phillips curve between inflation and unemployment evolved
-> over time across European countries, and which structural or
-> policy-related factors are associated with these changes?
+> since the 1960s ?*** In other words, how has the slope of the Phillips
+> curve between inflation and unemployment evolved over time across
+> European countries, and which structural or policy-related factors are
+> associated with these changes?
 
 ## Sources
 
@@ -360,6 +353,11 @@ will reduce this dataset and use subsets, which will be specified every
 time.
 
 ## Focus variables: unemployment, inflation, and wages (Phase 2)
+
+::: callout-warning
+For final phase, we continue on the document we created for the phase 2.
+Thus, the description of the variables will be there.
+:::
 
 Our two main variables are evidently unemployment and inflation, because
 they are the variables on which we will focus.
@@ -921,7 +919,7 @@ economics are [niche, but not inexistant]{.mark}, seeing [Baker et al.
 [Chaisemartin et al. (2022)](https://arxiv.org/pdf/2201.06898).
 :::
 
-## Model implementation
+## Model implementation & results
 
 ```{r}
 Z_vars <- c(
@@ -1088,7 +1086,7 @@ ranking_table |>
     pct_curvature = round(pct_curvature, 1)
   ) |>
   knitr::kable(
-    format = "html",
+    format="latex",
     caption = "Percentage contribution of structural variables to the Phillips curve, by period",
     col.names = c(
       "Period",
@@ -1326,7 +1324,7 @@ final_table |>
   ) |>
   arrange(country, period, desc(pct_slope)) |>
   knitr::kable(
-    format = "html",
+    format = "latex",
     caption = "Country- and period-specific percentage contributions to the Phillips curve",
     col.names = c(
       "Country",
