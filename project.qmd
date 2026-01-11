@@ -534,8 +534,7 @@ Labour productivity is defined as output per unit of labor input and is
 measured as real output per employed person. It captures efficiency
 gains in the production process and influences firms’ pricing and
 wage-setting behavior. Labour productivity is denoted by:
-$$prod_t=Y_t/N_t$$​​ where $$Y_t$$ denotes real output and $$N_t$$ the
-number of employed individuals.
+$a_t \equiv \frac{Y_t}{N_t}$ where $Y_t$ denotes real output and $N_t$ the number of employed individuals.
 
 ```{r}
 data_wide |>
@@ -1148,6 +1147,7 @@ ranking_table |>
   theme(legend.position = "bottom")
 
 ```
+A detailed country-by-country per period contribution table can be found in [Appendix B](#appendixB)
 
 # Conclusion
 
@@ -1160,8 +1160,6 @@ With regard to the curvature of the Phillips curve, the results indicate that it
 Finally, the post-Covid period is characterized by a relative increase in the volatility of potential GDP in explaining the curve, linked to supply shocks, disruptions in value chains, and sectoral reallocations. This indicates that, even though the Phillips curve has been flatter overall since the 2008 financial crisis, it remains nonlinear when the economy faces major structural shocks. Overall, these results suggest that the GFC represents a lasting break in the functioning of the Phillips curve, which has become less sensitive to monetary instruments and more governed by structural and supply factors.
 
 The results of this analysis are consistent with the theory of economic convergence: as economies grow, output converges toward its potential level and endogenous variables are determined dichotomously by supply. The Phillips curve relationship therefore exhibits characteristics such that, during major non-structural shocks, we observe significant contributions from exogenous variables linked to the stabilization instruments available to economic institutions and, conversely, a weaker contribution during periods of stabilization. This naturally leads to the establishment, in the long term, of economies where a quasi-infinite number of unemployment levels are compatible with a (convergent) level of inflation.
-
-
 
 # Appendix
 
@@ -1240,7 +1238,9 @@ parameters $\gamma_1\equiv\beta$,
 $\gamma_2\equiv -\frac{\kappa}{\delta}$ and
 $\gamma_3\equiv\kappa \alpha$.
 
-## Appendix B: Results per country
+## Appendix B: Results per country {#appendixB}
+
+Here is the country-by-country per period contributions of each exogenous variables to the slope and curvature of the Phillips curve:
 
 ```{r}
 final_table |>
